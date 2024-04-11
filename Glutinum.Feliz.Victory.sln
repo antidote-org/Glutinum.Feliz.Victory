@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Demo", "demo\Demo.fsproj", "{36F32C9B-974F-4BD4-B073-A91884DAA696}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Glutinum.Feliz.Victory", "src\Glutinum.Feliz.Victory.fsproj", "{2118531F-BEEB-4686-808C-3DD8D93ABB60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36F32C9B-974F-4BD4-B073-A91884DAA696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36F32C9B-974F-4BD4-B073-A91884DAA696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36F32C9B-974F-4BD4-B073-A91884DAA696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36F32C9B-974F-4BD4-B073-A91884DAA696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2118531F-BEEB-4686-808C-3DD8D93ABB60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2118531F-BEEB-4686-808C-3DD8D93ABB60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2118531F-BEEB-4686-808C-3DD8D93ABB60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2118531F-BEEB-4686-808C-3DD8D93ABB60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

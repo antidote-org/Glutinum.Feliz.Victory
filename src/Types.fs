@@ -1,4 +1,22 @@
-module Glutinum.Feliz.Victory.Types
+namespace Glutinum.Feliz.Victory
 
-type IPropsVicotry =
-    interface end
+module Types =
+
+
+    type IVictoryChartProperty =
+        interface end
+
+    type IVictoryDatableProps =
+        interface end
+
+    type IVictoryLabelableProps=
+        interface end
+
+    type IAreaChartProperty =
+        interface end
+
+    type IVictoryStackProperty =
+        interface end
+
+    type IVictoryBarProperty =
+        interface end

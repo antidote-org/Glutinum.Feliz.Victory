@@ -20,6 +20,15 @@
   <ItemGroup>
     <Compile Include="Types.fs" />
     <Compile Include="Interop.fs" />
-    <!-- <Compile Include="Exports.fs" /> -->
+    <Compile Include="Common.fs" />
+    <Compile Include="VictoryArea.fs" />
+    <Compile Include="VictoryBar.fs" />
+    <Compile Include="VictoryStack.fs" />
+    <Compile Include="VictoryChart.fs" />
+    <Compile Include="Exports.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fable.Core" />
+    <PackageReference Include="Feliz" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Fable.Core" Version="4.3.0" />
+    <PackageVersion Include="Feliz" Version="2.7.0" />
+    <PackageVersion Include="FSharp.Core" Version="8.0.101" />
+  </ItemGroup>
+</Project>

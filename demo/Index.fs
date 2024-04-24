@@ -7,7 +7,7 @@ open Fable.Core.JsInterop
 
 open type Glutinum.Feliz.Victory.Exports
 
-let data =
+let private data =
     [
         {|
             x = 1
@@ -60,7 +60,7 @@ let dataWithCategories =
         |}
     ]
 
-let categories =
+let private categories =
     ResizeArray [
         "dogs"
         "birds"

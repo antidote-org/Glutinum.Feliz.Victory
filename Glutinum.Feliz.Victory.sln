@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Demo", "demo\Demo.fsproj", 
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Glutinum.Feliz.Victory", "src\Glutinum.Feliz.Victory.fsproj", "{2118531F-BEEB-4686-808C-3DD8D93ABB60}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "EasyBuild", "build\EasyBuild.fsproj", "{F23F0B8C-649D-4BB4-A551-C1D7ED1BC9D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{2118531F-BEEB-4686-808C-3DD8D93ABB60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2118531F-BEEB-4686-808C-3DD8D93ABB60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2118531F-BEEB-4686-808C-3DD8D93ABB60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F23F0B8C-649D-4BB4-A551-C1D7ED1BC9D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23F0B8C-649D-4BB4-A551-C1D7ED1BC9D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23F0B8C-649D-4BB4-A551-C1D7ED1BC9D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23F0B8C-649D-4BB4-A551-C1D7ED1BC9D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

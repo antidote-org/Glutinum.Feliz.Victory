@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-  <!-- For SourceLink. See: https://github.com/dotnet/sourcelink#using-source-link-in-net-projects -->
-  <PropertyGroup>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-  </PropertyGroup>
-  <!-- <PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+    <!-- For SourceLink. See: https://github.com/dotnet/sourcelink#using-source-link-in-net-projects -->
+    <PropertyGroup>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>
+            $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    </PropertyGroup>
+    <!-- <PropertyGroup>
     <NpmDependencies>
       <NpmPackage Name="react-resize-detector" Version="&gt;= 7.0.0" ResolutionStrategy="Max" />
     </NpmDependencies>
   </PropertyGroup> -->
-  <ItemGroup>
-    <Compile Include="Types.fs" />
-    <Compile Include="Interop.fs" />
-    <Compile Include="Common.fs" />
-    <Compile Include="VictoryArea.fs" />
-    <Compile Include="VictoryBar.fs" />
-    <Compile Include="VictoryStack.fs" />
-    <Compile Include="VictoryChart.fs" />
-    <Compile Include="Exports.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Fable.Core" />
-    <PackageReference Include="Feliz" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Types.fs" />
+        <Compile Include="Interop.fs" />
+        <Compile Include="Common.fs" />
+        <Compile Include="VictoryArea.fs" />
+        <Compile Include="VictoryBar.fs" />
+        <Compile Include="VictoryStack.fs" />
+        <Compile Include="VictoryChart.fs" />
+        <Compile Include="Exports.fs" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Fable.Core" />
+        <PackageReference Include="Feliz" />
+    </ItemGroup>
+    <!-- Add source files to "fable" folder in Nuget package -->
+    <ItemGroup>
+        <!-- Include all files that are compiled with this project -->
+        <Content Include="@(Compile)" Pack="true"
+            PackagePath="fable/%(RelativeDir)%(Filename)%(Extension)" />
+        <!-- Include the project file itself as well -->
+        <Content Include="$(MSBuildThisFileFullPath)" Pack="true" PackagePath="fable/" />
+    </ItemGroup>
+    <PropertyGroup>
+        <!-- Ensure debugging information is easily found, so that editors can locate the source
+      code locations for your library.
+           This slightly increases the size of your package, but the usability benefits are worth it. -->
+        <DebugType>embedded</DebugType>
+        <!-- Ensure that files that are generated during the build by the .NET SDK are also included
+      in your compiled library. -->
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
 </Project>

@@ -77,57 +77,121 @@ let private Component () =
             style.height (length.rem 50)
         ]
         prop.children [
-        //     VictoryChart [
-        //         victoryChart.custom "domainPadding" {| x = 20 |}
-        //         victoryChart.children [
-        //             // VictoryArea [
-        //             //     // victoryArea.domain ((1.0, 50.0))
-        //             //     VictoryArea.data data
-        //             //     VictoryArea.labels (
-        //             //         fun o ->
-        //             //             o?datum?y |> unbox<string> |> Some
-        //             //     )
-        //             //     VictoryArea.style [
-        //             //         VictoryStyleInterface.data [
-        //             //             style.fill "#c43a31"
-        //             //         ]
-        //             //     ]
-        //             // ]
-        //             // VictoryBar [
-        //             //     VictoryBar.data data
-        //             //     VictoryBar.barRatio 0.8
-        //             //     VictoryBar.style [
-        //             //         VictoryStyleInterface.data [
-        //             //             style.fill "#c43a31"
-        //             //         ]
-        //             //     ]
-        //             // ]
-        //             VictoryBar [
-        //                 // VictoryBar.categories (
-        //                 //     CategoryPropType.op_Implicit (
-        //                 //         ResizeArray [
-        //                 //             "cats"
-        //                 //             "dogs"
-        //                 //             "birds"
-        //                 //             "fish"
-        //                 //             "frogs"
-        //                 //         ]
-        //                 //     )
-        //                 // )
-        //                 VictoryBar.custom "categories" categories
-        //                 VictoryBar.data dataWithCategories
-        //             ]
-        //         ]
-        //     ]
-        // ]
+            //     VictoryChart [
+            //         victoryChart.custom "domainPadding" {| x = 20 |}
+            //         victoryChart.children [
+            //             // VictoryArea [
+            //             //     // victoryArea.domain ((1.0, 50.0))
+            //             //     VictoryArea.data data
+            //             //     VictoryArea.labels (
+            //             //         fun o ->
+            //             //             o?datum?y |> unbox<string> |> Some
+            //             //     )
+            //             //     VictoryArea.style [
+            //             //         VictoryStyleInterface.data [
+            //             //             style.fill "#c43a31"
+            //             //         ]
+            //             //     ]
+            //             // ]
+            //             // VictoryBar [
+            //             //     VictoryBar.data data
+            //             //     VictoryBar.barRatio 0.8
+            //             //     VictoryBar.style [
+            //             //         VictoryStyleInterface.data [
+            //             //             style.fill "#c43a31"
+            //             //         ]
+            //             //     ]
+            //             // ]
+            //             VictoryBar [
+            //                 // VictoryBar.categories (
+            //                 //     CategoryPropType.op_Implicit (
+            //                 //         ResizeArray [
+            //                 //             "cats"
+            //                 //             "dogs"
+            //                 //             "birds"
+            //                 //             "fish"
+            //                 //             "frogs"
+            //                 //         ]
+            //                 //     )
+            //                 // )
+            //                 VictoryBar.custom "categories" categories
+            //                 VictoryBar.data dataWithCategories
+            //             ]
+            //         ]
+            //     ]
+            // ]
+            // VictoryChart [
+            //     victoryChart.custom "domainPadding" {| x = 25 |}
+            //     victoryChart.children [
+            //         VictoryBar [
+            //             VictoryBar.data dataWithCategories
+            //         ]
+            //     ]
+
+            // ]
             VictoryChart [
-                victoryChart.custom "domainPadding" {| x = 25 |}
                 victoryChart.children [
-                    VictoryBar [
-                        VictoryBar.data dataWithCategories
+                    VictoryStack [
+                        VictoryStackProps.colorScale [
+                            "tomato"
+                            "orange"
+                            "gold"
+                        ]
+                        VictoryStackProps.children [
+                            VictoryBar [
+                                [
+                                    {|
+                                        x = "a"
+                                        y = 2
+                                    |}
+                                    {|
+                                        x = "b"
+                                        y = 3
+                                    |}
+                                    {|
+                                        x = "c"
+                                        y = 5
+                                    |}
+                                ]
+                                |> VictoryBarProps.data
+                            ]
+                            VictoryBar [
+                                [
+                                    {|
+                                        x = "a"
+                                        y = 1
+                                    |}
+                                    {|
+                                        x = "b"
+                                        y = 4
+                                    |}
+                                    {|
+                                        x = "c"
+                                        y = 5
+                                    |}
+                                ]
+                                |> VictoryBarProps.data
+                            ]
+                            VictoryBar [
+                                [
+                                    {|
+                                        x = "a"
+                                        y = 3
+                                    |}
+                                    {|
+                                        x = "b"
+                                        y = 2
+                                    |}
+                                    {|
+                                        x = "c"
+                                        y = 6
+                                    |}
+                                ]
+                                |> VictoryBarProps.data
+                            ]
+                        ]
                     ]
                 ]
-
             ]
         ]
     ]

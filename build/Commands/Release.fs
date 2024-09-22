@@ -12,79 +12,8 @@ open BlackFox.CommandLine
 open EasyBuild.Utils.Dotnet
 open EasyBuild.Commands.Demo
 open EasyBuild.Commands.Publish
-
-type Type =
-    | Feat
-    | Fix
-    | CI
-    | Chore
-    | Docs
-    | Test
-    | Style
-    | Refactor
-
-    static member fromText(text: string) =
-        match text with
-        | "feat" -> Feat
-        | "fix" -> Fix
-        | "ci" -> CI
-        | "chore" -> Chore
-        | "docs" -> Docs
-        | "test" -> Test
-        | "style" -> Style
-        | "refactor" -> Refactor
-        | _ -> failwith $"Invalid scope: {text}"
-
-type CommitMessage =
-    {
-        Type: Type
-        Scope: string option
-        Description: string
-        BreakingChange: bool
-    }
-
-let private parseCommitMessage (commitMsg: string) =
-    let commitRegex =
-        Regex(
-            "^(?<type>feat|fix|ci|chore|docs|test|style|refactor)(\(?<scope>.+?\))?(?<breakingChange>!)?: (?<description>.{1,})$"
-        )
-
-    let m = commitRegex.Match(commitMsg)
-
-    if m.Success then
-        let scope =
-            if m.Groups.["scope"].Success then
-                Some m.Groups.["scope"].Value
-            else
-                None
-
-        {
-            Type = Type.fromText m.Groups.["type"].Value
-            Scope = scope
-            Description = m.Groups.["description"].Value
-            BreakingChange = m.Groups.["breakingChange"].Success
-        }
-
-    else
-        failwith
-            $"Invalid commit message format.
-
-Expected a commit message with the following format: <type>[optional scope]: <description>
-
-Where <type> is one of the following:
-- feat: A new feature
-- fix: A bug fix
-- ci: Changes to CI/CD configuration
-- chore: Changes to the build process or external dependencies
-- docs: Documentation changes
-- test: Adding or updating tests
-- style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-- refactor: A code change that neither fixes a bug nor adds a feature
-
-Example:
--------------------------
-feat: add new feature
--------------------------"
+open EasyBuild.CommitParser
+open EasyBuild.CommitParser.Types
 
 let capitalizeFirstLetter (text: string) =
     (string text.[0]).ToUpper() + text.[1..]
@@ -151,23 +80,25 @@ type ReleaseCommand() =
         let releaseCommits =
             commits
             // Parse the commit to get the commit information
-            |> Seq.map (fun commit ->
-                {|
-                    Commit = commit
-                    CommitMessage = parseCommitMessage commit.MessageShort
-                |}
+            |> Seq.choose (fun commit ->
+                match
+                    Parser.tryParseCommitMessage CommitParserConfig.Default commit.Message,
+                    commit
+                with
+                | Ok semanticCommit, commit ->
+                    Some
+                        {|
+                            OriginalCommit = commit
+                            SemanticCommit = semanticCommit
+                        |}
+                | Error _, _ -> None
             )
             // Remove commits that don't trigger a release
             |> Seq.filter (fun commit ->
-                match commit.CommitMessage.Type with
-                | Feat
-                | Fix -> true
-                | CI
-                | Chore
-                | Docs
-                | Test
-                | Style
-                | Refactor -> false
+                match commit.SemanticCommit.Type with
+                | "feat"
+                | "fix" -> true
+                | _ -> false
             )
 
         if Seq.isEmpty releaseCommits then
@@ -175,6 +106,7 @@ type ReleaseCommand() =
             0
         else
 
+            // Way to check that the code is working
             DemoCommand().Execute(context, DemoSettings()) |> ignore
 
             let lastChangelogVersion = Changelog.tryGetLastVersion Workspace.``CHANGELOG.md``
@@ -184,15 +116,15 @@ type ReleaseCommand() =
 
             let shouldBumpMajor =
                 settings.BumpMajor
-                || releaseCommits |> Seq.exists (fun commit -> commit.CommitMessage.BreakingChange)
+                || releaseCommits |> Seq.exists (fun commit -> commit.SemanticCommit.BreakingChange)
 
             let shouldBumpMinor =
                 settings.BumpMinor
-                || releaseCommits |> Seq.exists (fun commit -> commit.CommitMessage.Type = Feat)
+                || releaseCommits |> Seq.exists (fun commit -> commit.SemanticCommit.Type = "feat")
 
             let shouldBumpPatch =
                 settings.BumpPatch
-                || releaseCommits |> Seq.exists (fun commit -> commit.CommitMessage.Type = Fix)
+                || releaseCommits |> Seq.exists (fun commit -> commit.SemanticCommit.Type = "fix")
 
             let refVersion =
                 match lastChangelogVersion with
@@ -219,18 +151,12 @@ type ReleaseCommand() =
             newLine ()
 
             releaseCommits
-            |> Seq.groupBy (fun commit -> commit.CommitMessage.Type)
+            |> Seq.groupBy (fun commit -> commit.SemanticCommit.Type)
             |> Seq.iter (fun (commitType, commitGroup) ->
                 match commitType with
-                | Feat -> "### 🚀 Features" |> appendLine
-                | Fix -> "### 🐞 Bug Fixes" |> appendLine
-                // Following types below are not included in the changelog
-                | CI
-                | Chore
-                | Docs
-                | Test
-                | Style
-                | Refactor -> ()
+                | "feat" -> "### 🚀 Features" |> appendLine
+                | "fix" -> "### 🐞 Bug Fixes" |> appendLine
+                | _ -> ()
 
                 newLine ()
 
@@ -238,10 +164,10 @@ type ReleaseCommand() =
                     let githubCommitUrl sha =
                         $"https://github.com/easybuild-org/EasyBuild.FileSystemProvider/commit/%s{sha}"
 
-                    let shortSha = commit.Commit.Sha.Substring(0, 7)
-                    let commitUrl = githubCommitUrl commit.Commit.Sha
+                    let shortSha = commit.OriginalCommit.Sha.Substring(0, 7)
+                    let commitUrl = githubCommitUrl commit.OriginalCommit.Sha
 
-                    let description = capitalizeFirstLetter commit.CommitMessage.Description
+                    let description = capitalizeFirstLetter commit.SemanticCommit.Description
 
                     $"- %s{description} ([%s{shortSha}](%s{commitUrl}))" |> appendLine
             )
@@ -293,14 +219,6 @@ type ReleaseCommand() =
 
             File.WriteAllText(Workspace.``CHANGELOG.md``, newChangelogContent)
 
-            let escapedPackageReleasesNotes =
-                newVersionLines
-                |> Seq.toList
-                |> removeConsecutiveEmptyLines false []
-                |> String.concat "\n"
-                // Escape quotes and commas
-                |> fun text -> text.Replace("\"", "\\\\\\\"").Replace(",", "%2c")
-
             // Clean up the src/bin folder
             if Directory.Exists VirtualWorkspace.src.bin.``.`` then
                 Directory.Delete(VirtualWorkspace.src.bin.``.``, true)
@@ -312,9 +230,6 @@ type ReleaseCommand() =
                     |> CmdLine.appendRaw "pack"
                     |> CmdLine.appendRaw Workspace.src.``Glutinum.Feliz.Victory.fsproj``
                     |> CmdLine.appendRaw "-c Release"
-                    |> CmdLine.appendRaw $"-p:PackageVersion=\"%s{newVersion.ToString()}\""
-                    |> CmdLine.appendRaw
-                        $"-p:PackageReleaseNotes=\"%s{escapedPackageReleasesNotes}\""
                     |> CmdLine.toString
                 )
                 |> Async.AwaitTask
@@ -346,6 +261,6 @@ type ReleaseCommand() =
 
             Command.Run("git", "push")
 
-            // PublishCommand().Execute(context, PublishSettings(SkipBuild = true)) |> ignore
+            PublishCommand().Execute(context, PublishSettings(SkipBuild = true)) |> ignore
 
             0

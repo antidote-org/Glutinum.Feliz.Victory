@@ -5,6 +5,14 @@
     <DefineConstants>FABLE_COMPILER</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Css.fs" />
+    <Compile Include="CssModules.fs" />
+    <Compile Include="Utils/Tuple.fs" />
+    <Compile Include="Utils/Html.fs" />
+    <Compile Include="Router.fs" />
+    <Compile Include="Pages/VictoryArea.fs" />
+    <Compile Include="Pages/VictoryBar.fs" />
+    <Compile Include="Pages/VictoryLine.fs" />
     <Compile Include="Index.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -12,6 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Fable.Core" />
+    <PackageReference Include="Fable.Elmish" />
+    <PackageReference Include="Fable.Elmish.Browser" />
+    <PackageReference Include="Fable.Elmish.HMR" />
+    <PackageReference Include="Fable.Elmish.React" />
     <PackageReference Include="Feliz" />
+    <PackageReference Include="Zanaptak.TypedCssClasses" />
   </ItemGroup>
 </Project>

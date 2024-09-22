@@ -1,0 +1,13 @@
+.page-body {
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 10rem 1fr;
+    grid-template-areas:
+        "menu header"
+        "menu body";
+
+    > aside {
+        grid-area: menu;
+        --pico-font-size: 16px;
+        font-size: var(--pico-font-size);
+    }
+}

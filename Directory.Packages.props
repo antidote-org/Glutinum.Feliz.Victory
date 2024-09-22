@@ -8,8 +8,13 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
     <PackageVersion Include="Fable.Core" Version="4.3.0" />
+    <PackageVersion Include="Fable.Elmish" Version="4.2.0" />
+    <PackageVersion Include="Fable.Elmish.Browser" Version="4.0.3" />
+    <PackageVersion Include="Fable.Elmish.HMR" Version="7.0.0" />
+    <PackageVersion Include="Fable.Elmish.React" Version="4.0.0" />
     <PackageVersion Include="Fable.Package.SDK" Version="1.0.0" />
     <PackageVersion Include="Feliz" Version="2.7.0" />
     <PackageVersion Include="FSharp.Core" Version="8.0.101" />
+    <PackageVersion Include="Zanaptak.TypedCssClasses" Version="1.0.0" />
   </ItemGroup>
 </Project>

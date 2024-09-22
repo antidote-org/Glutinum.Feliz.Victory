@@ -17,24 +17,39 @@ type DemoCommand() =
 
     override __.Execute(context, settings) =
 
-        if settings.IsWatch then
-            Async.Parallel
-                [
-                    Command.RunAsync(
-                        "dotnet",
-                        CmdLine.empty
-                        |> CmdLine.appendRaw "fable"
-                        |> CmdLine.appendRaw "watch"
-                        |> CmdLine.appendRaw Workspace.demo.``.``
-                        |> CmdLine.appendRaw "--test:MSBuildCracker"
-                        |> CmdLine.appendRaw "--verbose"
-                        |> CmdLine.toString
-                    )
-                    |> Async.AwaitTask
+        Command.Run("npm", "install")
 
-                    Command.RunAsync("npx", "vite", workingDirectory = Workspace.demo.``.``)
-                    |> Async.AwaitTask
-                ]
+        // Make sure we have CssModules.fs generated
+        Command.Run("npx", "fcm", workingDirectory = Workspace.demo.``.``)
+
+        if settings.IsWatch then
+            Async.Parallel [
+                Command.RunAsync(
+                    "dotnet",
+                    CmdLine.empty
+                    |> CmdLine.appendRaw "fable"
+                    |> CmdLine.appendRaw "watch"
+                    |> CmdLine.appendRaw Workspace.demo.``.``
+                    |> CmdLine.appendRaw "--test:MSBuildCracker"
+                    |> CmdLine.appendRaw "--verbose"
+                    |> CmdLine.toString
+                )
+                |> Async.AwaitTask
+
+                Command.RunAsync("npx", "vite", workingDirectory = Workspace.demo.``.``)
+                |> Async.AwaitTask
+
+                Command.RunAsync(
+                    "npx",
+                    CmdLine.empty
+                    |> CmdLine.appendRaw "nodemon"
+                    |> CmdLine.appendPrefix "-e" "module.css"
+                    |> CmdLine.appendPrefix "--exec" "fcm"
+                    |> CmdLine.toString,
+                    workingDirectory = Workspace.demo.``.``
+                )
+                |> Async.AwaitTask
+            ]
             |> Async.RunSynchronously
             |> ignore
 

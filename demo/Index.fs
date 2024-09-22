@@ -1,199 +1,231 @@
-module Demo
+module Demo.Index
 
 open Glutinum.Feliz.Victory
 open Feliz
 open Browser.Dom
-open Fable.Core.JsInterop
+open Fable.Core
+open Elmish
 
-open type Glutinum.Feliz.Victory.Exports
+[<ImportDefault("./Index.module.css")>]
+let private classes: CssModules.Index = nativeOnly
 
-let private data =
-    [
-        {|
-            x = 1
-            y = 2
-            y0 = 0
-        |}
-        {|
-            x = 2
-            y = 3
-            y0 = 1
-        |}
-        {|
-            x = 3
-            y = 5
-            y0 = 1
-        |}
-        {|
-            x = 4
-            y = 4
-            y0 = 2
-        |}
-        {|
-            x = 5
-            y = 6
-            y0 = 2
-        |}
-    ]
+module VictoryArea = Pages.VictoryArea.Component
+module VictoryBar = Pages.VictoryBar.Component
+module VictoryLine = Pages.VictoryLine.Component
 
-let dataWithCategories =
-    [
-        {|
-            x = "cats"
-            y = 1
-        |}
-        {|
-            x = "dogs"
-            y = 2
-        |}
-        {|
-            x = "birds"
-            y = 3
-        |}
-        {|
-            x = "fish"
-            y = 2
-        |}
-        {|
-            x = "frogs"
-            y = 1
-        |}
-    ]
+[<RequireQualifiedAccess>]
+[<NoComparison>]
+type Page =
+    | Home
+    | VictoryArea of VictoryArea.Model
+    | VictoryBar of VictoryBar.Model
+    | VictoryLine of VictoryLine.Model
+    | NotFound
 
-let private categories =
-    ResizeArray [
-        "dogs"
-        "birds"
-        "cats"
-        "fish"
-        "frogs"
-    ]
+[<NoComparison>]
+type Msg =
+    | SetRoute of Router.Route option
+    | VictoryAreaMsg of VictoryArea.Msg
+    | VictoryBarMsg of VictoryBar.Msg
+    | VictoryLineMsg of VictoryLine.Msg
 
-[<ReactComponent>]
-let private Component () =
-    Html.div [
-        prop.style [
-            style.width (length.rem 50)
-            style.height (length.rem 50)
+[<NoComparison>]
+type Model =
+    {
+        CurrentRoute: Router.Route option
+        ActivePage: Page
+    }
+
+let private setRoute (optRoute: Router.Route option) (model: Model) =
+    let model =
+        { model with
+            CurrentRoute = optRoute
+        }
+
+    match optRoute with
+    | None ->
+        { model with
+            ActivePage = Page.NotFound
+        },
+        Cmd.none
+
+    | Some route ->
+        match route with
+        | Router.Route.VictoryArea ->
+            let (subModel, subCmd) = VictoryArea.init ()
+
+            { model with
+                ActivePage = Page.VictoryArea subModel
+            },
+            Cmd.map VictoryAreaMsg subCmd
+
+        | Router.Route.Home ->
+            { model with
+                ActivePage = Page.Home
+            },
+            Cmd.none
+
+        | Router.Route.VictoryBar ->
+            let (subModel, subCmd) = VictoryBar.init ()
+
+            { model with
+                ActivePage = Page.VictoryBar subModel
+            },
+            Cmd.map VictoryBarMsg subCmd
+
+        | Router.Route.VictoryLine ->
+            let (subModel, subCmd) = VictoryLine.init ()
+
+            { model with
+                ActivePage = Page.VictoryLine subModel
+            },
+            Cmd.map VictoryLineMsg subCmd
+
+        | Router.Route.NotFound ->
+            { model with
+                ActivePage = Page.NotFound
+            },
+            Cmd.none
+
+let private update (msg: Msg) (model: Model) =
+    match msg with
+    | SetRoute optRoute -> setRoute optRoute model
+
+    | VictoryAreaMsg subMsg ->
+        match model.ActivePage with
+        | Page.VictoryArea subModel ->
+            VictoryArea.update subMsg subModel
+            |> Tuple.mapFirst Page.VictoryArea
+            |> Tuple.mapFirst (fun page ->
+                { model with
+                    ActivePage = page
+                }
+            )
+            |> Tuple.mapSecond (Cmd.map VictoryAreaMsg)
+
+        | _ -> model, Cmd.none
+
+    | VictoryBarMsg subMsg ->
+        match model.ActivePage with
+        | Page.VictoryBar subModel ->
+            VictoryBar.update subMsg subModel
+            |> Tuple.mapFirst Page.VictoryBar
+            |> Tuple.mapFirst (fun page ->
+                { model with
+                    ActivePage = page
+                }
+            )
+            |> Tuple.mapSecond (Cmd.map VictoryBarMsg)
+
+        | _ -> model, Cmd.none
+
+    | VictoryLineMsg subMsg ->
+        match model.ActivePage with
+        | Page.VictoryLine subModel ->
+            VictoryLine.update subMsg subModel
+            |> Tuple.mapFirst Page.VictoryLine
+            |> Tuple.mapFirst (fun page ->
+                { model with
+                    ActivePage = page
+                }
+            )
+            |> Tuple.mapSecond (Cmd.map VictoryLineMsg)
+
+        | _ -> model, Cmd.none
+
+let private init (location) =
+    setRoute
+        location
+        {
+            ActivePage = Page.Home
+            CurrentRoute = None
+        }
+
+let private renderNavbar =
+    Html.nav [
+        Html.ul [
+            Html.li [
+                Html.strong "Glutinum.Feliz.Victory"
+            ]
         ]
-        prop.children [
-            //     VictoryChart [
-            //         victoryChart.custom "domainPadding" {| x = 20 |}
-            //         victoryChart.children [
-            //             // VictoryArea [
-            //             //     // victoryArea.domain ((1.0, 50.0))
-            //             //     VictoryArea.data data
-            //             //     VictoryArea.labels (
-            //             //         fun o ->
-            //             //             o?datum?y |> unbox<string> |> Some
-            //             //     )
-            //             //     VictoryArea.style [
-            //             //         VictoryStyleInterface.data [
-            //             //             style.fill "#c43a31"
-            //             //         ]
-            //             //     ]
-            //             // ]
-            //             // VictoryBar [
-            //             //     VictoryBar.data data
-            //             //     VictoryBar.barRatio 0.8
-            //             //     VictoryBar.style [
-            //             //         VictoryStyleInterface.data [
-            //             //             style.fill "#c43a31"
-            //             //         ]
-            //             //     ]
-            //             // ]
-            //             VictoryBar [
-            //                 // VictoryBar.categories (
-            //                 //     CategoryPropType.op_Implicit (
-            //                 //         ResizeArray [
-            //                 //             "cats"
-            //                 //             "dogs"
-            //                 //             "birds"
-            //                 //             "fish"
-            //                 //             "frogs"
-            //                 //         ]
-            //                 //     )
-            //                 // )
-            //                 VictoryBar.custom "categories" categories
-            //                 VictoryBar.data dataWithCategories
-            //             ]
-            //         ]
-            //     ]
-            // ]
-            // VictoryChart [
-            //     victoryChart.custom "domainPadding" {| x = 25 |}
-            //     victoryChart.children [
-            //         VictoryBar [
-            //             VictoryBar.data dataWithCategories
-            //         ]
-            //     ]
-
-            // ]
-            VictoryChart [
-                victoryChart.children [
-                    VictoryStack [
-                        VictoryStackProps.colorScale [
-                            "tomato"
-                            "orange"
-                            "gold"
-                        ]
-                        VictoryStackProps.children [
-                            VictoryBar [
-                                [
-                                    {|
-                                        x = "a"
-                                        y = 2
-                                    |}
-                                    {|
-                                        x = "b"
-                                        y = 3
-                                    |}
-                                    {|
-                                        x = "c"
-                                        y = 5
-                                    |}
-                                ]
-                                |> VictoryBarProps.data
-                            ]
-                            VictoryBar [
-                                [
-                                    {|
-                                        x = "a"
-                                        y = 1
-                                    |}
-                                    {|
-                                        x = "b"
-                                        y = 4
-                                    |}
-                                    {|
-                                        x = "c"
-                                        y = 5
-                                    |}
-                                ]
-                                |> VictoryBarProps.data
-                            ]
-                            VictoryBar [
-                                [
-                                    {|
-                                        x = "a"
-                                        y = 3
-                                    |}
-                                    {|
-                                        x = "b"
-                                        y = 2
-                                    |}
-                                    {|
-                                        x = "c"
-                                        y = 6
-                                    |}
-                                ]
-                                |> VictoryBarProps.data
-                            ]
-                        ]
-                    ]
+        Html.ul [
+            Html.li [
+                Html.a [
+                    prop.text "Github"
+                    prop.href "https://github.com/antidote-org/Glutinum.Feliz.Victory"
                 ]
             ]
         ]
     ]
 
-ReactDOM.createRoot(document.getElementById ("root")).render (Component())
+let private sidebarLink (route: Router.Route) (label: string) =
+    Html.li [
+        Html.a [
+            prop.text label
+            Router.href route
+        ]
+    ]
+
+let private sidebarCategory (label: string) (links: ReactElement list) =
+    Html.li [
+        Html.p label
+        Html.ul [
+            prop.role "list"
+            prop.className missingCss.margin
+            prop.children links
+        ]
+    ]
+
+let private renderPageContent (model: Model) (dispatch: Dispatch<Msg>) =
+    match model.ActivePage with
+    | Page.Home ->
+        Html.div [
+            prop.text "Home"
+        ]
+
+    | Page.NotFound ->
+        Html.div [
+            prop.text "Not Found"
+        ]
+
+    | Page.VictoryArea subModel -> VictoryArea.view subModel (VictoryAreaMsg >> dispatch)
+    | Page.VictoryBar subModel -> VictoryBar.view subModel (VictoryBarMsg >> dispatch)
+    | Page.VictoryLine subModel -> VictoryLine.view subModel (VictoryLineMsg >> dispatch)
+
+let private view (model: Model) (dispatch: Dispatch<Msg>) =
+    Html.div [
+        prop.className [
+            missingCss.``sidebar-layout``
+            missingCss.fullscreen
+        ]
+        prop.children [
+            Html.header [
+                Html.ul [
+                    prop.role "list"
+                    prop.children [
+                        sidebarLink Router.Route.Home "Getting Started"
+
+                        sidebarCategory "Charts" [
+                            sidebarLink Router.Route.VictoryArea "VictoryArea"
+                            sidebarLink Router.Route.VictoryBar "VictoryBar"
+                            sidebarLink Router.Route.VictoryLine "VictoryLine"
+                        ]
+                    ]
+                ]
+            ]
+
+            Html.main [
+                renderPageContent model dispatch
+            ]
+        ]
+    ]
+
+open Elmish.UrlParser
+open Elmish.Navigation
+open Elmish.React
+open Elmish.HMR
+
+Program.mkProgram init update view
+|> Program.toNavigable (parseHash Router.routeParser) setRoute
+|> Program.withReactSynchronous "root"
+|> Program.run

@@ -168,7 +168,10 @@ let private sidebarLink (route: Router.Route) (label: string) =
 
 let private sidebarCategory (label: string) (links: ReactElement list) =
     Html.li [
-        Html.p label
+        Html.p [
+            prop.className missingCss.bold
+            prop.text label
+        ]
         Html.ul [
             prop.role "list"
             prop.className missingCss.margin

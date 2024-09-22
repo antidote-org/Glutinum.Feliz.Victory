@@ -15,6 +15,7 @@
         <Compile Include="Common.fs" />
         <Compile Include="VictoryArea.fs" />
         <Compile Include="VictoryBar.fs" />
+        <Compile Include="VictoryLine.fs" />
         <Compile Include="VictoryStack.fs" />
         <Compile Include="VictoryChart.fs" />
         <Compile Include="Exports.fs" />

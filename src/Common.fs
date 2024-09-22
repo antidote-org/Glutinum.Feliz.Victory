@@ -14,7 +14,7 @@ type AxisType =
 
 type DatumValue = U3<float, string, JS.Date> option
 
-type Datum = obj
+// type Datum = obj
 
 [<RequireQualifiedAccess>]
 [<StringEnum(CaseRules.None)>]
@@ -46,10 +46,10 @@ type D3Scale = obj
 
 [<AllowNullLiteral>]
 [<Interface>]
-type CallbackArgs =
+type CallbackArgs<'Datum> =
     abstract active: bool option with get, set
-    abstract data: ResizeArray<Datum> option with get, set
-    abstract datum: Datum option with get, set
+    abstract data: ResizeArray<'Datum> option with get, set
+    abstract datum: 'Datum option with get, set
     abstract horizontal: bool option with get, set
     abstract index: ID option with get, set
     abstract x: float option with get, set
@@ -91,7 +91,7 @@ module ForAxes =
 [<Interface>]
 type VictoryDatableProps<'IDelayedTypeProperty> =
 
-    static member inline categories (categories: CategoryPropType) =
+    static member inline categories(categories: CategoryPropType) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" categories
 
     static member inline data(data: 'T list) =
@@ -139,16 +139,16 @@ type VictoryDatableProps<'IDelayedTypeProperty> =
     static member inline sortKey(sortKey: ResizeArray<float>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "sortKey" sortKey
 
-    static member inline sortKey(sortKey: CallbackArgs -> string) =
+    static member inline sortKey(sortKey: CallbackArgs<'Datum> -> string) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "sortKey" sortKey
 
-    static member inline sortKey(sortKey: CallbackArgs -> ResizeArray<string>) =
+    static member inline sortKey(sortKey: CallbackArgs<'Datum> -> ResizeArray<string>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "sortKey" sortKey
 
-    static member inline sortKey(sortKey: CallbackArgs -> float) =
+    static member inline sortKey(sortKey: CallbackArgs<'Datum> -> float) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "sortKey" sortKey
 
-    static member inline sortKey(sortKey: CallbackArgs -> ResizeArray<float>) =
+    static member inline sortKey(sortKey: CallbackArgs<'Datum> -> ResizeArray<float>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "sortKey" sortKey
 
     static member inline sortOrder(sortOrder: SortOrderPropType) =
@@ -169,16 +169,16 @@ type VictoryDatableProps<'IDelayedTypeProperty> =
     static member inline x(x: ResizeArray<float>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "x" x
 
-    static member inline x(x: CallbackArgs -> string) =
+    static member inline x(x: CallbackArgs<'Datum> -> string) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "x" x
 
-    static member inline x(x: CallbackArgs -> ResizeArray<string>) =
+    static member inline x(x: CallbackArgs<'Datum> -> ResizeArray<string>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "x" x
 
-    static member inline x(x: CallbackArgs -> float) =
+    static member inline x(x: CallbackArgs<'Datum> -> float) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "x" x
 
-    static member inline x(x: CallbackArgs -> ResizeArray<float>) =
+    static member inline x(x: CallbackArgs<'Datum> -> ResizeArray<float>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "x" x
 
     static member inline y(y: string) =
@@ -193,16 +193,16 @@ type VictoryDatableProps<'IDelayedTypeProperty> =
     static member inline y(y: ResizeArray<float>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y" y
 
-    static member inline y(y: CallbackArgs -> string) =
+    static member inline y(y: CallbackArgs<'Datum> -> string) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y" y
 
-    static member inline y(y: CallbackArgs -> ResizeArray<string>) =
+    static member inline y(y: CallbackArgs<'Datum> -> ResizeArray<string>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y" y
 
-    static member inline y(y: CallbackArgs -> float) =
+    static member inline y(y: CallbackArgs<'Datum> -> float) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y" y
 
-    static member inline y(y: CallbackArgs -> ResizeArray<float>) =
+    static member inline y(y: CallbackArgs<'Datum> -> ResizeArray<float>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y" y
 
     static member inline y0(y0: string) =
@@ -217,16 +217,16 @@ type VictoryDatableProps<'IDelayedTypeProperty> =
     static member inline y0(y0: ResizeArray<float>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y0" y0
 
-    static member inline y0(y0: CallbackArgs -> string) =
+    static member inline y0(y0: CallbackArgs<'Datum> -> string) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y0" y0
 
-    static member inline y0(y0: CallbackArgs -> ResizeArray<string>) =
+    static member inline y0(y0: CallbackArgs<'Datum> -> ResizeArray<string>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y0" y0
 
-    static member inline y0(y0: CallbackArgs -> float) =
+    static member inline y0(y0: CallbackArgs<'Datum> -> float) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y0" y0
 
-    static member inline y0(y0: CallbackArgs -> ResizeArray<float>) =
+    static member inline y0(y0: CallbackArgs<'Datum> -> ResizeArray<float>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "y0" y0
 
 [<Erase>]
@@ -243,7 +243,7 @@ type VictoryMultiLabelableProps<'IDelayedTypeProperty> =
     static member inline labels(labels: ResizeArray<string>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "labels" labels
 
-    static member inline labels(labels: CallbackArgs -> string) =
+    static member inline labels(labels: CallbackArgs<'Datum> -> string) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "labels" labels
 
     static member inline labels(labels: obj -> string option) =
@@ -262,13 +262,13 @@ type VictoryMultiLabelableProps<'IDelayedTypeProperty> =
 [<Interface>]
 type VictoryStringOrNumberCallback =
     [<Emit("$0($1...)")>]
-    abstract member Invoke: args: CallbackArgs -> U2<string, float>
+    abstract member Invoke: args: CallbackArgs<'Datum> -> U2<string, float>
 
 [<AllowNullLiteral>]
 [<Interface>]
 type VictoryStringCallback =
     [<Emit("$0($1...)")>]
-    abstract member Invoke: args: CallbackArgs -> string
+    abstract member Invoke: args: CallbackArgs<'Datum> -> string
 
 type StringOrNumberOrCallback = U3<string, float, VictoryStringOrNumberCallback>
 
@@ -280,19 +280,19 @@ type SliceNumberOrCallback = U2<float, obj>
 [<Interface>]
 type VictoryNumberCallback =
     [<Emit("$0($1...)")>]
-    abstract member Invoke: args: CallbackArgs -> float
+    abstract member Invoke: args: CallbackArgs<'Datum> -> float
 
 [<AllowNullLiteral>]
 [<Interface>]
 type VictoryPaddingCallback =
     [<Emit("$0($1...)")>]
-    abstract member Invoke: args: CallbackArgs -> U2<float, BlockProps>
+    abstract member Invoke: args: CallbackArgs<'Datum> -> U2<float, BlockProps>
 
 [<AllowNullLiteral>]
 [<Interface>]
 type VictoryOrientationCallback =
     [<Emit("$0($1...)")>]
-    abstract member Invoke: args: CallbackArgs -> OrientationTypes
+    abstract member Invoke: args: CallbackArgs<'Datum> -> OrientationTypes
 
 type NumberOrCallback = U2<float, VictoryNumberCallback>
 
@@ -346,33 +346,87 @@ type VictoryStyleObject = IStyleAttribute list
 [<Erase>]
 [<Interface>]
 type VictoryStyleInterface =
-    static member inline parent (style : VictoryStyleObject) : VictoryStyleInterface =
+    static member inline parent(style: VictoryStyleObject) : VictoryStyleInterface =
         unbox ("parent", createObj !!style)
 
-    static member inline data (style : VictoryStyleObject) : VictoryStyleInterface =
+    static member inline data(style: VictoryStyleObject) : VictoryStyleInterface =
         unbox ("data", createObj !!style)
 
     // TODO: Map to VictoryLabelStyleObject but for that we would need to be able to inherit from
     // Feliz.style which is not possible at the moment because Feliz.style is not an interface
-    static member inline labels (style : VictoryStyleObject) : VictoryStyleInterface =
+    static member inline labels(style: VictoryStyleObject) : VictoryStyleInterface =
         unbox ("labels", createObj !!style)
 
-    static member inline border (style : VictoryStyleObject) : VictoryStyleInterface =
+    static member inline border(style: VictoryStyleObject) : VictoryStyleInterface =
         unbox ("border", createObj !!style)
 
 [<Erase>]
 type CategoryPropType =
     | Case1 of ResizeArray<string>
-    | Case2 of {| x: ResizeArray<string> |}
-    | Case3 of {| y: ResizeArray<string> |}
-    | Case4 of {| x: ResizeArray<string>; y: ResizeArray<string> |}
+    | Case2 of
+        {|
+            x: ResizeArray<string>
+        |}
+    | Case3 of
+        {|
+            y: ResizeArray<string>
+        |}
+    | Case4 of
+        {|
+            x: ResizeArray<string>
+            y: ResizeArray<string>
+        |}
 
     static member op_ErasedCast(x: ResizeArray<string>) = Case1 x
-    static member op_ErasedCast(x: {| x: ResizeArray<string> |}) = Case2 x
-    static member op_ErasedCast(x: {| y: ResizeArray<string> |}) = Case3 x
-    static member op_ErasedCast(x: {| x: ResizeArray<string>; y: ResizeArray<string> |}) = Case4 x
+
+    static member op_ErasedCast
+        (x:
+            {|
+                x: ResizeArray<string>
+            |})
+        =
+        Case2 x
+
+    static member op_ErasedCast
+        (x:
+            {|
+                y: ResizeArray<string>
+            |})
+        =
+        Case3 x
+
+    static member op_ErasedCast
+        (x:
+            {|
+                x: ResizeArray<string>
+                y: ResizeArray<string>
+            |})
+        =
+        Case4 x
 
     static member inline op_Implicit(x: ResizeArray<string>) = Case1 x
-    static member inline op_Implicit(x: {| x: ResizeArray<string> |}) = Case2 x
-    static member inline op_Implicit(x: {| y: ResizeArray<string> |}) = Case3 x
-    static member inline op_Implicit(x: {| x: ResizeArray<string>; y: ResizeArray<string> |}) = Case4 x
+
+    static member inline op_Implicit
+        (x:
+            {|
+                x: ResizeArray<string>
+            |})
+        =
+        Case2 x
+
+    static member inline op_Implicit
+        (x:
+            {|
+                y: ResizeArray<string>
+            |})
+        =
+        Case3 x
+
+    static member inline op_Implicit
+        (x:
+            {|
+                x: ResizeArray<string>
+                y: ResizeArray<string>
+            |})
+        =
+        Case4 x

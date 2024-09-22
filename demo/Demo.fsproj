@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Include="Css.fs" />
     <Compile Include="CssModules.fs" />
+    <Compile Include="Components/Components.fs" />
     <Compile Include="Utils/Tuple.fs" />
     <Compile Include="Utils/Html.fs" />
     <Compile Include="Router.fs" />

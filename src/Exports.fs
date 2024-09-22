@@ -16,5 +16,8 @@ type Exports =
     static member inline VictoryBar(properties: #IVictoryBarProperty seq) =
         Interop.reactApi.createElement (import "VictoryBar" "victory", createObj !!properties)
 
+    static member inline VictoryLine(properties: #IVictoryLineProperty seq) =
+        Interop.reactApi.createElement (import "VictoryLine" "victory", createObj !!properties)
+
     static member inline VictoryStack(properties: #IVictoryStackProperty seq) =
         Interop.reactApi.createElement (import "VictoryStack" "victory", createObj !!properties)

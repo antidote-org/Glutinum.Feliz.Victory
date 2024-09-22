@@ -49,19 +49,13 @@ let private data =
 
 let view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
-        VictoryChart [
-            victoryChart.custom "domainPadding" 20
-            victoryChart.children [
-                VictoryBar [
-                    VictoryBar.data data
-                    VictoryBar.barRatio 0.8
-                    VictoryBar.style [
-                        VictoryStyleInterface.data [
-                            style.fill "#c43a31"
-                        ]
-                    ]
-                ]
-            ]
+        VictoryLine [
+            VictoryLine.data data
+            VictoryLine.labels (fun (args : CallbackArgs<Data1>) ->
+                match args.datum with
+                | Some datum -> string datum.y
+                | None -> ""
+            )
         ]
         |> Html.previewChart
     ]

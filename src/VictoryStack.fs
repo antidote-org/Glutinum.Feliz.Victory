@@ -31,7 +31,11 @@ type VictoryStackProps =
     static member inline children(children: ReactElement) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty>
             "children"
-            (Interop.reactApi.Children.toArray (Array.ofSeq [ children ]))
+            (Interop.reactApi.Children.toArray (
+                Array.ofSeq [
+                    children
+                ]
+            ))
 
     static member inline colorScale(colorScale: ColorScalePropType) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty> "colorScale" colorScale
@@ -68,10 +72,10 @@ type VictoryStackProps =
     static member inline eventKey(eventKey: ResizeArray<int>) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty> "eventKey" eventKey
 
-    static member inline eventKey(eventKey: CallbackArgs -> string) =
+    static member inline eventKey(eventKey: CallbackArgs<'Datum> -> string) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty> "eventKey" eventKey
 
-    static member inline eventKey(eventKey: CallbackArgs -> int) =
+    static member inline eventKey(eventKey: CallbackArgs<'Datum> -> int) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty> "eventKey" eventKey
 
     static member inline fillInMissingData(fillInMissingData: bool) =

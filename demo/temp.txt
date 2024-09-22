@@ -1,0 +1,284 @@
+.
+├── Components
+│   ├── Code.tsx
+│   ├── Components.fs
+│   └── Components.fs.js
+├── Css.fs
+├── CssModules.fs
+├── Demo.fsproj
+├── Index.fs
+├── Index.fs.js
+├── Index.fs.js.map
+├── Index.module.css
+├── Pages
+│   ├── VictoryArea.fs
+│   ├── VictoryArea.fs.js
+│   ├── VictoryBar.fs
+│   ├── VictoryBar.fs.js
+│   ├── VictoryLine.fs
+│   └── VictoryLine.fs.js
+├── Router.fs
+├── Router.fs.js
+├── Utils
+│   ├── Html.fs
+│   ├── Html.fs.js
+│   ├── Tuple.fs
+│   └── Tuple.fs.js
+├── bin
+│   ├── Debug
+│   │   ├── netstandard2.0
+│   │   │   ├── Demo.deps.json
+│   │   │   ├── Demo.dll
+│   │   │   ├── Demo.pdb
+│   │   │   ├── Demo.xml
+│   │   │   ├── Glutinum.Feliz.Victory.dll
+│   │   │   ├── Glutinum.Feliz.Victory.pdb
+│   │   │   └── Glutinum.Feliz.Victory.xml
+│   │   └── netstandard2.1
+│   └── Release
+│       └── netstandard2.0
+├── dist
+│   ├── assets
+│   │   └── index-GMkIjJlh.js
+│   └── index.html
+├── fable_modules
+│   ├── Fable.Elmish.4.2.0
+│   │   ├── Fable.Elmish.fableproj
+│   │   ├── cmd.fs
+│   │   ├── cmd.fs.js
+│   │   ├── cmd.obsolete.fs
+│   │   ├── cmd.obsolete.fs.js
+│   │   ├── prelude.fs
+│   │   ├── prelude.fs.js
+│   │   ├── program.fs
+│   │   ├── program.fs.js
+│   │   ├── ring.fs
+│   │   ├── ring.fs.js
+│   │   ├── sub.fs
+│   │   └── sub.fs.js
+│   ├── Fable.Elmish.Browser.4.0.3
+│   │   ├── Fable.Elmish.Browser.fableproj
+│   │   ├── navigation.fs
+│   │   ├── navigation.fs.js
+│   │   ├── parser.fs
+│   │   ├── parser.fs.js
+│   │   ├── tracers.fs
+│   │   └── tracers.fs.js
+│   ├── Fable.Elmish.HMR.7.0.0
+│   │   ├── Bundler.fs
+│   │   ├── Bundler.fs.js
+│   │   ├── Fable.Elmish.HMR.fableproj
+│   │   ├── HMR.Parcel.fs
+│   │   ├── HMR.Vite.fs
+│   │   ├── HMR.Webpack.fs
+│   │   ├── common.fs
+│   │   ├── common.fs.js
+│   │   ├── hmr.fs
+│   │   └── hmr.fs.js
+│   ├── Fable.Elmish.React.4.0.0
+│   │   ├── Fable.Elmish.React.fableproj
+│   │   ├── common.fs
+│   │   ├── common.fs.js
+│   │   ├── react-native.fs
+│   │   ├── react-native.fs.js
+│   │   ├── react.fs
+│   │   └── react.fs.js
+│   ├── Fable.Elmish.UrlParser.1.0.2
+│   │   ├── Fable.Elmish.UrlParser.fableproj
+│   │   ├── parser.fs
+│   │   ├── parser.fs.js
+│   │   ├── prelude.fs
+│   │   └── prelude.fs.js
+│   ├── Fable.React.Types.18.3.0
+│   │   ├── Fable.React.Extensions.fs
+│   │   ├── Fable.React.Hooks.fs
+│   │   ├── Fable.React.Hooks.fs.js
+│   │   ├── Fable.React.Types.fableproj
+│   │   ├── Fable.React.fs
+│   │   └── Fable.React.fs.js
+│   ├── Fable.ReactDom.Types.18.2.0
+│   │   ├── Fable.ReactDom.Types.fableproj
+│   │   └── Fable.ReactDom.fs
+│   ├── Feliz.2.7.0
+│   │   ├── BorderStyle.fs
+│   │   ├── Colors.fs
+│   │   ├── Colors.fs.js
+│   │   ├── Feliz.fableproj
+│   │   ├── Fonts.fs
+│   │   ├── GridTypes.fs
+│   │   ├── Html.fs
+│   │   ├── Interop.fs
+│   │   ├── Interop.fs.js
+│   │   ├── Key.fs
+│   │   ├── Key.fs.js
+│   │   ├── Length.fs
+│   │   ├── Locale.fs
+│   │   ├── Properties.fs
+│   │   ├── Properties.fs.js
+│   │   ├── React.fs
+│   │   ├── React.fs.js
+│   │   ├── ReactDOM.fs
+│   │   ├── ReactDOM.fs.js
+│   │   ├── ReactInterop.js
+│   │   ├── ReactTypes.fs
+│   │   ├── StyleTypes.fs
+│   │   ├── Styles.fs
+│   │   ├── Svg.fs
+│   │   ├── Svg.fs.js
+│   │   ├── TextDecorationLine.fs
+│   │   ├── TextDecorationStyle.fs
+│   │   ├── Transform.fs
+│   │   ├── TransformOrigin.fs
+│   │   ├── TransitionProperty.fs
+│   │   └── Types.fs
+│   ├── fable-library-js.4.16.0
+│   │   ├── Array.d.ts
+│   │   ├── Array.js
+│   │   ├── Async.d.ts
+│   │   ├── Async.js
+│   │   ├── AsyncBuilder.d.ts
+│   │   ├── AsyncBuilder.js
+│   │   ├── BigInt.d.ts
+│   │   ├── BigInt.js
+│   │   ├── BitConverter.d.ts
+│   │   ├── BitConverter.js
+│   │   ├── Boolean.d.ts
+│   │   ├── Boolean.js
+│   │   ├── CHANGELOG.md
+│   │   ├── Char.d.ts
+│   │   ├── Char.js
+│   │   ├── Choice.d.ts
+│   │   ├── Choice.js
+│   │   ├── ConditionalWeakTable.d.ts
+│   │   ├── ConditionalWeakTable.js
+│   │   ├── Date.d.ts
+│   │   ├── Date.js
+│   │   ├── DateOffset.d.ts
+│   │   ├── DateOffset.js
+│   │   ├── DateOnly.d.ts
+│   │   ├── DateOnly.js
+│   │   ├── Decimal.d.ts
+│   │   ├── Decimal.js
+│   │   ├── Double.d.ts
+│   │   ├── Double.js
+│   │   ├── Encoding.d.ts
+│   │   ├── Encoding.js
+│   │   ├── Event.d.ts
+│   │   ├── Event.js
+│   │   ├── FSharp.Collections.d.ts
+│   │   ├── FSharp.Collections.js
+│   │   ├── FSharp.Core.CompilerServices.d.ts
+│   │   ├── FSharp.Core.CompilerServices.js
+│   │   ├── FSharp.Core.d.ts
+│   │   ├── FSharp.Core.js
+│   │   ├── Global.d.ts
+│   │   ├── Global.js
+│   │   ├── Guid.d.ts
+│   │   ├── Guid.js
+│   │   ├── Int32.d.ts
+│   │   ├── Int32.js
+│   │   ├── List.d.ts
+│   │   ├── List.js
+│   │   ├── Long.d.ts
+│   │   ├── Long.js
+│   │   ├── MailboxProcessor.d.ts
+│   │   ├── MailboxProcessor.js
+│   │   ├── Map.d.ts
+│   │   ├── Map.js
+│   │   ├── MapUtil.d.ts
+│   │   ├── MapUtil.js
+│   │   ├── MutableMap.d.ts
+│   │   ├── MutableMap.js
+│   │   ├── MutableSet.d.ts
+│   │   ├── MutableSet.js
+│   │   ├── Native.d.ts
+│   │   ├── Native.js
+│   │   ├── Numeric.d.ts
+│   │   ├── Numeric.js
+│   │   ├── Observable.d.ts
+│   │   ├── Observable.js
+│   │   ├── Option.d.ts
+│   │   ├── Option.js
+│   │   ├── README.md
+│   │   ├── Random.d.ts
+│   │   ├── Random.js
+│   │   ├── Range.d.ts
+│   │   ├── Range.js
+│   │   ├── Reflection.d.ts
+│   │   ├── Reflection.js
+│   │   ├── RegExp.d.ts
+│   │   ├── RegExp.js
+│   │   ├── Result.d.ts
+│   │   ├── Result.js
+│   │   ├── Seq.d.ts
+│   │   ├── Seq.js
+│   │   ├── Seq2.d.ts
+│   │   ├── Seq2.js
+│   │   ├── Set.d.ts
+│   │   ├── Set.js
+│   │   ├── String.d.ts
+│   │   ├── String.js
+│   │   ├── System.Collections.Generic.d.ts
+│   │   ├── System.Collections.Generic.js
+│   │   ├── System.Text.d.ts
+│   │   ├── System.Text.js
+│   │   ├── SystemException.d.ts
+│   │   ├── SystemException.js
+│   │   ├── TimeOnly.d.ts
+│   │   ├── TimeOnly.js
+│   │   ├── TimeSpan.d.ts
+│   │   ├── TimeSpan.js
+│   │   ├── Timer.d.ts
+│   │   ├── Timer.js
+│   │   ├── Types.d.ts
+│   │   ├── Types.js
+│   │   ├── Unicode.13.0.0.d.ts
+│   │   ├── Unicode.13.0.0.js
+│   │   ├── Uri.d.ts
+│   │   ├── Uri.js
+│   │   ├── Util.d.ts
+│   │   ├── Util.js
+│   │   ├── big.d.ts
+│   │   ├── lib
+│   │   │   ├── big.d.ts
+│   │   │   └── big.js
+│   │   └── package.json
+│   └── project_cracked_debug.json
+├── index.html
+├── obj
+│   ├── Debug
+│   │   ├── netstandard2.0
+│   │   │   ├── Demo.AssemblyInfo.fs
+│   │   │   ├── Demo.AssemblyInfoInputs.cache
+│   │   │   ├── Demo.assets.cache
+│   │   │   ├── Demo.dll
+│   │   │   ├── Demo.fsproj.AssemblyReference.cache
+│   │   │   ├── Demo.fsproj.CopyComplete
+│   │   │   ├── Demo.fsproj.CoreCompileInputs.cache
+│   │   │   ├── Demo.fsproj.FileListAbsolute.txt
+│   │   │   ├── Demo.pdb
+│   │   │   ├── Demo.sourcelink.json
+│   │   │   └── Demo.xml
+│   │   └── netstandard2.1
+│   │       ├── Demo.AssemblyInfo.fs
+│   │       ├── Demo.AssemblyInfoInputs.cache
+│   │       ├── Demo.assets.cache
+│   │       └── Demo.fsproj.AssemblyReference.cache
+│   ├── Demo.fsproj.nuget.dgspec.json
+│   ├── Demo.fsproj.nuget.g.props
+│   ├── Demo.fsproj.nuget.g.targets
+│   ├── Release
+│   │   └── netstandard2.0
+│   │       ├── Demo.AssemblyInfo.fs
+│   │       ├── Demo.AssemblyInfoInputs.cache
+│   │       ├── Demo.assets.cache
+│   │       └── Demo.fsproj.AssemblyReference.cache
+│   ├── project.assets.json
+│   └── project.nuget.cache
+├── packages.lock.json
+├── public
+│   └── style.css
+├── temp.txt
+└── vite.config.ts
+
+30 directories, 252 files

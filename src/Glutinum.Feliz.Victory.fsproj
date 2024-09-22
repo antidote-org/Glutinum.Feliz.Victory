@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
     </PropertyGroup>
     <!-- <PropertyGroup>
     <NpmDependencies>
@@ -19,24 +19,12 @@
         <Compile Include="Exports.fs" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="EasyBuild.PackageReleaseNotes.Tasks">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
         <PackageReference Include="Fable.Core" />
+        <PackageReference Include="Fable.Package.SDK" PrivateAssets="all" />
         <PackageReference Include="Feliz" />
     </ItemGroup>
-    <!-- Add source files to "fable" folder in Nuget package -->
-    <ItemGroup>
-        <!-- Include all files that are compiled with this project -->
-        <Content Include="@(Compile)" Pack="true"
-            PackagePath="fable/%(RelativeDir)%(Filename)%(Extension)" />
-        <!-- Include the project file itself as well -->
-        <Content Include="$(MSBuildThisFileFullPath)" Pack="true" PackagePath="fable/" />
-    </ItemGroup>
-    <PropertyGroup>
-        <!-- Ensure debugging information is easily found, so that editors can locate the source
-      code locations for your library.
-           This slightly increases the size of your package, but the usability benefits are worth it. -->
-        <DebugType>embedded</DebugType>
-        <!-- Ensure that files that are generated during the build by the .NET SDK are also included
-      in your compiled library. -->
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    </PropertyGroup>
 </Project>

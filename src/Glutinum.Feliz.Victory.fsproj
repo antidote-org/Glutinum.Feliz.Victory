@@ -10,6 +10,7 @@
     </NpmDependencies>
   </PropertyGroup> -->
     <ItemGroup>
+        <Compile Include="Utils.fs" />
         <Compile Include="Types.fs" />
         <Compile Include="Interop.fs" />
         <Compile Include="Common.fs" />

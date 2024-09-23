@@ -23,6 +23,11 @@ type VictoryStackProps =
     static member inline categories(categories: CategoryPropType) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty> "categories" categories
 
+    static member inline categories(categories) =
+        let x: CategoryPropType = Utils.resolveOp_Implicit categories
+
+        Interop.mkDelayedTypeProperty<IVictoryStackProperty> "categories" (x)
+
     static member inline children(children: ReactElement list) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty>
             "children"

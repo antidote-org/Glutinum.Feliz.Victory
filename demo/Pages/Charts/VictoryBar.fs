@@ -1,4 +1,4 @@
-module Demo.Pages.VictoryBar.Component
+module Demo.Pages.Charts.VictoryBar.Component
 
 open Demo
 open Elmish
@@ -72,8 +72,8 @@ let dataWithCategories =
 let view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
         VictoryChart [
-            victoryChart.custom "domainPadding" 20
-            victoryChart.children [
+            VictoryChart.custom "domainPadding" 20
+            VictoryChart.children [
                 VictoryBar [
                     VictoryBar.data data
                     VictoryBar.barRatio 0.8
@@ -88,8 +88,8 @@ let view (model: Model) (dispatch: Dispatch<Msg>) =
         |> Html.previewChart
 
         VictoryChart [
-            victoryChart.custom "domainPadding" 25
-            victoryChart.children [
+            VictoryChart.custom "domainPadding" 25
+            VictoryChart.children [
                 VictoryBar [
                     VictoryBar.categories (
                         ResizeArray [
@@ -100,7 +100,6 @@ let view (model: Model) (dispatch: Dispatch<Msg>) =
                             "frogs"
                         ]
                         |> CategoryPropType.U4.Case2
-                        |> CategoryPropType.Case2
                     )
                     VictoryBar.data dataWithCategories
                 ]

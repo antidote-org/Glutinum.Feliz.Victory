@@ -5,32 +5,24 @@ open Feliz
 open Browser.Dom
 open Fable.Core
 open Elmish
+open Demo.Components
 
 [<ImportDefault("./Index.module.css")>]
 let private classes: CssModules.Index = nativeOnly
-
-module VictoryArea = Pages.VictoryArea.Component
-module VictoryBar = Pages.VictoryBar.Component
-module VictoryLine = Pages.VictoryLine.Component
-module VictoryPie = Pages.VictoryPie.Component
 
 [<RequireQualifiedAccess>]
 [<NoComparison>]
 type Page =
     | Home
-    | VictoryArea of VictoryArea.Model
-    | VictoryBar of VictoryBar.Model
-    | VictoryLine of VictoryLine.Model
-    | VictoryPie of VictoryPie.Model
+    | Charts of Pages.Charts.Dispatcher.Model
+    | Containers of Pages.Containers.Dispatcher.Model
     | NotFound
 
 [<NoComparison>]
 type Msg =
     | SetRoute of Router.Route option
-    | VictoryAreaMsg of VictoryArea.Msg
-    | VictoryBarMsg of VictoryBar.Msg
-    | VictoryLineMsg of VictoryLine.Msg
-    | VictoryPieMsg of VictoryPie.Msg
+    | ChartsMsg of Pages.Charts.Dispatcher.Msg
+    | ContainersMsg of Pages.Containers.Dispatcher.Msg
 
 [<NoComparison>]
 type Model =
@@ -54,43 +46,11 @@ let private setRoute (optRoute: Router.Route option) (model: Model) =
 
     | Some route ->
         match route with
-        | Router.Route.VictoryArea ->
-            let (subModel, subCmd) = VictoryArea.init ()
-
-            { model with
-                ActivePage = Page.VictoryArea subModel
-            },
-            Cmd.map VictoryAreaMsg subCmd
-
         | Router.Route.Home ->
             { model with
                 ActivePage = Page.Home
             },
             Cmd.none
-
-        | Router.Route.VictoryBar ->
-            let (subModel, subCmd) = VictoryBar.init ()
-
-            { model with
-                ActivePage = Page.VictoryBar subModel
-            },
-            Cmd.map VictoryBarMsg subCmd
-
-        | Router.Route.VictoryLine ->
-            let (subModel, subCmd) = VictoryLine.init ()
-
-            { model with
-                ActivePage = Page.VictoryLine subModel
-            },
-            Cmd.map VictoryLineMsg subCmd
-
-        | Router.Route.VictoryPie ->
-            let (subModel, subCmd) = VictoryPie.init ()
-
-            { model with
-                ActivePage = Page.VictoryPie subModel
-            },
-            Cmd.map VictoryPieMsg subCmd
 
         | Router.Route.NotFound ->
             { model with
@@ -98,63 +58,51 @@ let private setRoute (optRoute: Router.Route option) (model: Model) =
             },
             Cmd.none
 
+        | Router.Route.Chart chartRoute ->
+            let (subModel, subCmd) = Pages.Charts.Dispatcher.init chartRoute
+
+            { model with
+                ActivePage = Page.Charts subModel
+            },
+            Cmd.map ChartsMsg subCmd
+
+        | Router.Route.Container containerRoute ->
+            let (subModel, subCmd) = Pages.Containers.Dispatcher.init containerRoute
+
+            { model with
+                ActivePage = Page.Containers subModel
+            },
+            Cmd.map ContainersMsg subCmd
+
 let private update (msg: Msg) (model: Model) =
     match msg with
     | SetRoute optRoute -> setRoute optRoute model
 
-    | VictoryAreaMsg subMsg ->
+    | ChartsMsg subMsg ->
         match model.ActivePage with
-        | Page.VictoryArea subModel ->
-            VictoryArea.update subMsg subModel
-            |> Tuple.mapFirst Page.VictoryArea
+        | Page.Charts subModel ->
+            Pages.Charts.Dispatcher.update subMsg subModel
+            |> Tuple.mapFirst Page.Charts
             |> Tuple.mapFirst (fun page ->
                 { model with
                     ActivePage = page
                 }
             )
-            |> Tuple.mapSecond (Cmd.map VictoryAreaMsg)
+            |> Tuple.mapSecond (Cmd.map ChartsMsg)
 
         | _ -> model, Cmd.none
 
-    | VictoryBarMsg subMsg ->
+    | ContainersMsg subMsg ->
         match model.ActivePage with
-        | Page.VictoryBar subModel ->
-            VictoryBar.update subMsg subModel
-            |> Tuple.mapFirst Page.VictoryBar
+        | Page.Containers subModel ->
+            Pages.Containers.Dispatcher.update subMsg subModel
+            |> Tuple.mapFirst Page.Containers
             |> Tuple.mapFirst (fun page ->
                 { model with
                     ActivePage = page
                 }
             )
-            |> Tuple.mapSecond (Cmd.map VictoryBarMsg)
-
-        | _ -> model, Cmd.none
-
-    | VictoryLineMsg subMsg ->
-        match model.ActivePage with
-        | Page.VictoryLine subModel ->
-            VictoryLine.update subMsg subModel
-            |> Tuple.mapFirst Page.VictoryLine
-            |> Tuple.mapFirst (fun page ->
-                { model with
-                    ActivePage = page
-                }
-            )
-            |> Tuple.mapSecond (Cmd.map VictoryLineMsg)
-
-        | _ -> model, Cmd.none
-
-    | VictoryPieMsg subMsg ->
-        match model.ActivePage with
-        | Page.VictoryPie subModel ->
-            VictoryPie.update subMsg subModel
-            |> Tuple.mapFirst Page.VictoryPie
-            |> Tuple.mapFirst (fun page ->
-                { model with
-                    ActivePage = page
-                }
-            )
-            |> Tuple.mapSecond (Cmd.map VictoryPieMsg)
+            |> Tuple.mapSecond (Cmd.map ContainersMsg)
 
         | _ -> model, Cmd.none
 
@@ -183,27 +131,6 @@ let private renderNavbar =
         ]
     ]
 
-let private sidebarLink (route: Router.Route) (label: string) =
-    Html.li [
-        Html.a [
-            prop.text label
-            Router.href route
-        ]
-    ]
-
-let private sidebarCategory (label: string) (links: ReactElement list) =
-    Html.li [
-        Html.p [
-            prop.className missingCss.bold
-            prop.text label
-        ]
-        Html.ul [
-            prop.role "list"
-            prop.className missingCss.margin
-            prop.children links
-        ]
-    ]
-
 let private renderPageContent (model: Model) (dispatch: Dispatch<Msg>) =
     match model.ActivePage with
     | Page.Home ->
@@ -216,10 +143,8 @@ let private renderPageContent (model: Model) (dispatch: Dispatch<Msg>) =
             prop.text "Not Found"
         ]
 
-    | Page.VictoryArea subModel -> VictoryArea.view subModel (VictoryAreaMsg >> dispatch)
-    | Page.VictoryBar subModel -> VictoryBar.view subModel (VictoryBarMsg >> dispatch)
-    | Page.VictoryLine subModel -> VictoryLine.view subModel (VictoryLineMsg >> dispatch)
-    | Page.VictoryPie subModel -> VictoryPie.view subModel (VictoryPieMsg >> dispatch)
+    | Page.Charts subModel -> Pages.Charts.Dispatcher.view subModel (ChartsMsg >> dispatch)
+    | Page.Containers subModel -> Pages.Containers.Dispatcher.view subModel (ContainersMsg >> dispatch)
 
 let private view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
@@ -232,14 +157,10 @@ let private view (model: Model) (dispatch: Dispatch<Msg>) =
                 Html.ul [
                     prop.role "list"
                     prop.children [
-                        sidebarLink Router.Route.Home "Getting Started"
+                        Sidebar.link Router.Route.Home "Getting Started"
 
-                        sidebarCategory "Charts" [
-                            sidebarLink Router.Route.VictoryArea "VictoryArea"
-                            sidebarLink Router.Route.VictoryBar "VictoryBar"
-                            sidebarLink Router.Route.VictoryLine "VictoryLine"
-                            sidebarLink Router.Route.VictoryPie "VictoryPie"
-                        ]
+                        Pages.Charts.Dispatcher.sidebar
+                        Pages.Containers.Dispatcher.sidebar
                     ]
                 ]
             ]

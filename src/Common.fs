@@ -94,8 +94,10 @@ type VictoryDatableProps<'IDelayedTypeProperty> =
     static member inline categories(categories: CategoryPropType) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" categories
 
-    // static member inline categories(categories: ^a when ^a : (static member op_Implicit : ^a -> CategoryPropType)) =
-    //     Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" categories
+    static member inline categories(categories) =
+        let x: CategoryPropType = Utils.resolveOp_Implicit categories
+
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" (x)
 
     static member inline data(data: 'T list) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "data" (ResizeArray data)
@@ -380,17 +382,54 @@ type VictoryStyleInterface =
         unbox ("border", createObj !!style)
 
 [<RequireQualifiedAccess>]
+[<Erase>]
 type CategoryPropType =
     // U4<ResizeArray<string>, CategoryPropType.U4.Case2, CategoryPropType.U4.Case3, CategoryPropType.U4.Case4>
     | Case1 of ResizeArray<string>
     | Case2 of CategoryPropType.U4.Case2
+    | Case3 of CategoryPropType.U4.Case3
+    | Case4 of CategoryPropType.U4.Case4
 
-    static member op_Implicit(categories: ResizeArray<string>) = CategoryPropType.Case1(categories)
-
-    static member op_Implicit(categories: CategoryPropType.U4.Case2) =
-        CategoryPropType.Case2(categories)
+    static member inline op_Implicit(categories: ResizeArray<string>) = Case1(categories)
+    static member inline op_Implicit(categories: CategoryPropType.U4.Case2) = Case2(categories)
+    static member inline op_Implicit(categories: CategoryPropType.U4.Case3) = Case3(categories)
+    static member inline op_Implicit(categories: CategoryPropType.U4.Case4) = Case4(categories)
 
 module CategoryPropType =
+
+    module U4 =
+
+        [<Global>]
+        [<AllowNullLiteral>]
+        type Case2 [<ParamObject; Emit("$0")>] (x: ResizeArray<string>) =
+
+            member val x: ResizeArray<string> = nativeOnly with get, set
+
+        [<Global>]
+        [<AllowNullLiteral>]
+        type Case3 [<ParamObject; Emit("$0")>] (y: ResizeArray<string>) =
+
+            member val y: ResizeArray<string> = nativeOnly with get, set
+
+        [<Global>]
+        [<AllowNullLiteral>]
+        type Case4 [<ParamObject; Emit("$0")>] (x: ResizeArray<string>, y: ResizeArray<string>) =
+
+            member val x: ResizeArray<string> = nativeOnly with get, set
+            member val y: ResizeArray<string> = nativeOnly with get, set
+
+[<RequireQualifiedAccess>]
+type CategoryPropType2 =
+    // U4<ResizeArray<string>, CategoryPropType2.U4.Case2, CategoryPropType2.U4.Case3, CategoryPropType2.U4.Case4>
+    | Case1 of ResizeArray<string>
+    | Case2 of CategoryPropType2.U4.Case2
+
+    static member op_Implicit(categories: ResizeArray<string>) = CategoryPropType2.Case1(categories)
+
+    static member op_Implicit(categories: CategoryPropType2.U4.Case2) =
+        CategoryPropType2.Case2(categories)
+
+module CategoryPropType2 =
 
     module U4 =
 

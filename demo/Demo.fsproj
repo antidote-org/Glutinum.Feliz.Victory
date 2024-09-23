@@ -7,14 +7,18 @@
   <ItemGroup>
     <Compile Include="Css.fs" />
     <Compile Include="CssModules.fs" />
+    <Compile Include="Router.fs" />
     <Compile Include="Components/Components.fs" />
+    <Compile Include="Components/Sidebar.fs" />
     <Compile Include="Utils/Tuple.fs" />
     <Compile Include="Utils/Html.fs" />
-    <Compile Include="Router.fs" />
-    <Compile Include="Pages/VictoryArea.fs" />
-    <Compile Include="Pages/VictoryBar.fs" />
-    <Compile Include="Pages/VictoryLine.fs" />
-    <Compile Include="Pages/VictoryPie.fs" />
+    <Compile Include="Pages/Charts/VictoryArea.fs" />
+    <Compile Include="Pages/Charts/VictoryBar.fs" />
+    <Compile Include="Pages/Charts/VictoryLine.fs" />
+    <Compile Include="Pages/Charts/VictoryPie.fs" />
+    <Compile Include="Pages/Charts/Dispatcher.fs" />
+    <Compile Include="Pages/Containers/VictoryChart.fs" />
+    <Compile Include="Pages/Containers/Dispatcher.fs" />
     <Compile Include="Index.fs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-module Demo.Pages.VictoryPie.Component
+module Demo.Pages.Charts.VictoryPie.Component
 
 open Demo
 open Elmish

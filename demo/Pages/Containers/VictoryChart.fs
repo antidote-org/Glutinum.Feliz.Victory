@@ -1,4 +1,4 @@
-module Demo.Pages.VictoryLine.Component
+module Demo.Pages.Containers.VictoryChart.Component
 
 open Demo
 open Elmish
@@ -16,7 +16,7 @@ type Msg = | NoOp
 
 let init () =
     {
-        Name = "Area"
+        Name = "Pie"
     },
     Cmd.none
 
@@ -28,35 +28,34 @@ type Data1 =
     {
         x: int
         y: int
-        y0: int
     }
 
-    static member inline create x y y0 =
+    static member inline create x y =
         {
             x = x
             y = y
-            y0 = y0
         }
 
 let private data =
     [
-        Data1.create 1 2 0
-        Data1.create 2 3 1
-        Data1.create 3 5 1
-        Data1.create 4 4 2
-        Data1.create 5 6 2
+        Data1.create 1 2
+        Data1.create 2 3
+        Data1.create 3 5
+        Data1.create 4 4
+        Data1.create 5 7
     ]
 
 let view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
-        VictoryLine [
-            VictoryLine.data data
-            VictoryLine.labels (fun (args : CallbackArgs<Data1>) ->
-                match args.datum with
-                | Some datum -> string datum.y
-                | None -> ""
-            )
+        VictoryChart [
+            VictoryChart.innerRadius 50
         ]
         |> Html.previewChart
     ]
     |> Html.demoPage "VictoryLine"
+
+
+// open Fable.Core
+// open Fable.Core.JsInterop
+
+// Fable.Core.JS.console.log(import "Background" "victory")

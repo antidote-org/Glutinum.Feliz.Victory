@@ -12,6 +12,7 @@ type Route =
     | VictoryArea
     | VictoryBar
     | VictoryLine
+    | VictoryPie
     | NotFound
 
 let private toHash page =
@@ -21,6 +22,7 @@ let private toHash page =
         | Route.VictoryArea -> "victory-area"
         | Route.VictoryBar -> "victory-bar"
         | Route.VictoryLine -> "victory-line"
+        | Route.VictoryPie -> "victory-pie"
         | Route.NotFound -> "not-found"
 
     "#" + segmentsPart
@@ -31,6 +33,7 @@ let routeParser: Parser<Route -> Route, Route> =
         map Route.VictoryArea (s "victory-area")
         map Route.VictoryBar (s "victory-bar")
         map Route.VictoryLine (s "victory-line")
+        map Route.VictoryPie (s "victory-pie")
         map Route.Home top
     ]
 

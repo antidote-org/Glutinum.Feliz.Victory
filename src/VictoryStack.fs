@@ -37,7 +37,7 @@ type VictoryStackProps =
                 ]
             ))
 
-    static member inline colorScale(colorScale: ColorScalePropType) =
+    static member inline colorScale(colorScale: ColorScalePropType.Case1) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty> "colorScale" colorScale
 
     static member inline colorScale(colorScale: string list) =
@@ -91,15 +91,3 @@ type VictoryStackProps =
 [<Interface>]
 type VictoryStack =
     inherit VictoryStackProps
-
-[<RequireQualifiedAccess>]
-[<StringEnum(CaseRules.None)>]
-type ColorScalePropType =
-    | grayscale
-    | qualitative
-    | heatmap
-    | warm
-    | cool
-    | red
-    | green
-    | blue

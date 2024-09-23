@@ -47,6 +47,28 @@ let private data =
         Data1.create 5 6 2
     ]
 
+type DataWithCategories =
+    {
+        x: string
+        y: int
+    }
+
+    static member inline create x y =
+        {
+            x = x
+            y = y
+        }
+
+let dataWithCategories =
+    [
+        DataWithCategories.create "cats" 1
+        DataWithCategories.create "dogs" 2
+        DataWithCategories.create "birds" 3
+        DataWithCategories.create "fish" 2
+        DataWithCategories.create "frogs" 1
+    ]
+
+
 let view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
         VictoryChart [
@@ -60,6 +82,27 @@ let view (model: Model) (dispatch: Dispatch<Msg>) =
                             style.fill "#c43a31"
                         ]
                     ]
+                ]
+            ]
+        ]
+        |> Html.previewChart
+
+        VictoryChart [
+            victoryChart.custom "domainPadding" 25
+            victoryChart.children [
+                VictoryBar [
+                    VictoryBar.categories (
+                        ResizeArray [
+                            "birds"
+                            "dogs"
+                            "fish"
+                            "cats"
+                            "frogs"
+                        ]
+                        |> CategoryPropType.U4.Case2
+                        |> CategoryPropType.Case2
+                    )
+                    VictoryBar.data dataWithCategories
                 ]
             ]
         ]

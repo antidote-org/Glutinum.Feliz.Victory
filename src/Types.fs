@@ -15,3 +15,7 @@ module Types =
     type IVictoryStackProperty = interface end
 
     type IVictoryBarProperty = interface end
+
+    type IVictoryPieProperty = interface end
+
+    type IVictorySliceProperty = interface end

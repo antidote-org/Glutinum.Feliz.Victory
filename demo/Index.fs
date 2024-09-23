@@ -12,6 +12,7 @@ let private classes: CssModules.Index = nativeOnly
 module VictoryArea = Pages.VictoryArea.Component
 module VictoryBar = Pages.VictoryBar.Component
 module VictoryLine = Pages.VictoryLine.Component
+module VictoryPie = Pages.VictoryPie.Component
 
 [<RequireQualifiedAccess>]
 [<NoComparison>]
@@ -20,6 +21,7 @@ type Page =
     | VictoryArea of VictoryArea.Model
     | VictoryBar of VictoryBar.Model
     | VictoryLine of VictoryLine.Model
+    | VictoryPie of VictoryPie.Model
     | NotFound
 
 [<NoComparison>]
@@ -28,6 +30,7 @@ type Msg =
     | VictoryAreaMsg of VictoryArea.Msg
     | VictoryBarMsg of VictoryBar.Msg
     | VictoryLineMsg of VictoryLine.Msg
+    | VictoryPieMsg of VictoryPie.Msg
 
 [<NoComparison>]
 type Model =
@@ -81,6 +84,14 @@ let private setRoute (optRoute: Router.Route option) (model: Model) =
             },
             Cmd.map VictoryLineMsg subCmd
 
+        | Router.Route.VictoryPie ->
+            let (subModel, subCmd) = VictoryPie.init ()
+
+            { model with
+                ActivePage = Page.VictoryPie subModel
+            },
+            Cmd.map VictoryPieMsg subCmd
+
         | Router.Route.NotFound ->
             { model with
                 ActivePage = Page.NotFound
@@ -130,6 +141,20 @@ let private update (msg: Msg) (model: Model) =
                 }
             )
             |> Tuple.mapSecond (Cmd.map VictoryLineMsg)
+
+        | _ -> model, Cmd.none
+
+    | VictoryPieMsg subMsg ->
+        match model.ActivePage with
+        | Page.VictoryPie subModel ->
+            VictoryPie.update subMsg subModel
+            |> Tuple.mapFirst Page.VictoryPie
+            |> Tuple.mapFirst (fun page ->
+                { model with
+                    ActivePage = page
+                }
+            )
+            |> Tuple.mapSecond (Cmd.map VictoryPieMsg)
 
         | _ -> model, Cmd.none
 
@@ -194,6 +219,7 @@ let private renderPageContent (model: Model) (dispatch: Dispatch<Msg>) =
     | Page.VictoryArea subModel -> VictoryArea.view subModel (VictoryAreaMsg >> dispatch)
     | Page.VictoryBar subModel -> VictoryBar.view subModel (VictoryBarMsg >> dispatch)
     | Page.VictoryLine subModel -> VictoryLine.view subModel (VictoryLineMsg >> dispatch)
+    | Page.VictoryPie subModel -> VictoryPie.view subModel (VictoryPieMsg >> dispatch)
 
 let private view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
@@ -212,6 +238,7 @@ let private view (model: Model) (dispatch: Dispatch<Msg>) =
                             sidebarLink Router.Route.VictoryArea "VictoryArea"
                             sidebarLink Router.Route.VictoryBar "VictoryBar"
                             sidebarLink Router.Route.VictoryLine "VictoryLine"
+                            sidebarLink Router.Route.VictoryPie "VictoryPie"
                         ]
                     ]
                 ]
@@ -227,6 +254,7 @@ open Elmish.UrlParser
 open Elmish.Navigation
 open Elmish.React
 open Elmish.HMR
+
 
 Program.mkProgram init update view
 |> Program.toNavigable (parseHash Router.routeParser) setRoute

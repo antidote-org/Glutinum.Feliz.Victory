@@ -14,6 +14,7 @@
     <Compile Include="Pages/VictoryArea.fs" />
     <Compile Include="Pages/VictoryBar.fs" />
     <Compile Include="Pages/VictoryLine.fs" />
+    <Compile Include="Pages/VictoryPie.fs" />
     <Compile Include="Index.fs" />
   </ItemGroup>
   <ItemGroup>

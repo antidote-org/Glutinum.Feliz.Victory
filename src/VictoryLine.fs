@@ -16,7 +16,7 @@ type VictoryLineTTargetType =
 [<Interface>]
 type VictoryLineBase =
     inherit VictoryDatableProps<IVictoryLineProperty>
-    inherit VictoryLabelableProps<IVictoryStackProperty>
+    inherit VictoryLabelableProps<IVictoryLineProperty>
     inherit VictoryMultiLabelableProps<IVictoryLineProperty>
 
     static member inline custom (name: string) (value: obj) =

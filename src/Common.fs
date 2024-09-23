@@ -94,6 +94,9 @@ type VictoryDatableProps<'IDelayedTypeProperty> =
     static member inline categories(categories: CategoryPropType) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" categories
 
+    // static member inline categories(categories: ^a when ^a : (static member op_Implicit : ^a -> CategoryPropType)) =
+    //     Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" categories
+
     static member inline data(data: 'T list) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "data" (ResizeArray data)
 
@@ -341,6 +344,22 @@ type InterpolationPropType =
     | stepAfter
     | stepBefore
 
+type ColorScalePropType = U2<ColorScalePropType.Case1, ResizeArray<string>>
+
+module ColorScalePropType =
+
+    [<RequireQualifiedAccess>]
+    [<StringEnum(CaseRules.None)>]
+    type Case1 =
+        | grayscale
+        | qualitative
+        | heatmap
+        | warm
+        | cool
+        | red
+        | green
+        | blue
+
 type VictoryStyleObject = IStyleAttribute list
 
 [<Erase>]
@@ -360,73 +379,36 @@ type VictoryStyleInterface =
     static member inline border(style: VictoryStyleObject) : VictoryStyleInterface =
         unbox ("border", createObj !!style)
 
-[<Erase>]
+[<RequireQualifiedAccess>]
 type CategoryPropType =
+    // U4<ResizeArray<string>, CategoryPropType.U4.Case2, CategoryPropType.U4.Case3, CategoryPropType.U4.Case4>
     | Case1 of ResizeArray<string>
-    | Case2 of
-        {|
-            x: ResizeArray<string>
-        |}
-    | Case3 of
-        {|
-            y: ResizeArray<string>
-        |}
-    | Case4 of
-        {|
-            x: ResizeArray<string>
-            y: ResizeArray<string>
-        |}
+    | Case2 of CategoryPropType.U4.Case2
 
-    static member op_ErasedCast(x: ResizeArray<string>) = Case1 x
+    static member op_Implicit(categories: ResizeArray<string>) = CategoryPropType.Case1(categories)
 
-    static member op_ErasedCast
-        (x:
-            {|
-                x: ResizeArray<string>
-            |})
-        =
-        Case2 x
+    static member op_Implicit(categories: CategoryPropType.U4.Case2) =
+        CategoryPropType.Case2(categories)
 
-    static member op_ErasedCast
-        (x:
-            {|
-                y: ResizeArray<string>
-            |})
-        =
-        Case3 x
+module CategoryPropType =
 
-    static member op_ErasedCast
-        (x:
-            {|
-                x: ResizeArray<string>
-                y: ResizeArray<string>
-            |})
-        =
-        Case4 x
+    module U4 =
 
-    static member inline op_Implicit(x: ResizeArray<string>) = Case1 x
+        [<Global>]
+        [<AllowNullLiteral>]
+        type Case2 [<ParamObject; Emit("$0")>] (x: ResizeArray<string>) =
 
-    static member inline op_Implicit
-        (x:
-            {|
-                x: ResizeArray<string>
-            |})
-        =
-        Case2 x
+            member val x: ResizeArray<string> = nativeOnly with get, set
 
-    static member inline op_Implicit
-        (x:
-            {|
-                y: ResizeArray<string>
-            |})
-        =
-        Case3 x
+        [<Global>]
+        [<AllowNullLiteral>]
+        type Case3 [<ParamObject; Emit("$0")>] (y: ResizeArray<string>) =
 
-    static member inline op_Implicit
-        (x:
-            {|
-                x: ResizeArray<string>
-                y: ResizeArray<string>
-            |})
-        =
-        Case4 x
+            member val y: ResizeArray<string> = nativeOnly with get, set
+
+        [<Global>]
+        [<AllowNullLiteral>]
+        type Case4 [<ParamObject; Emit("$0")>] (x: ResizeArray<string>, y: ResizeArray<string>) =
+
+            member val x: ResizeArray<string> = nativeOnly with get, set
+            member val y: ResizeArray<string> = nativeOnly with get, set

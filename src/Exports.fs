@@ -10,6 +10,22 @@ type Exports =
     static member inline VictoryChart(properties: #IVictoryChartProperty seq) =
         Interop.reactApi.createElement (import "VictoryChart" "victory", createObj !!properties)
 
+    static member inline VictoryChart(properties: ReactElement list) =
+        Interop.reactApi.createElement (
+            import "VictoryChart" "victory",
+            {|
+                children = Interop.reactApi.Children.toArray (Array.ofSeq properties)
+            |}
+        )
+
+    static member inline VictoryChart(value: ReactElement) =
+        Interop.reactApi.createElement (
+            import "VictoryChart" "victory",
+            {|
+                children = value
+            |}
+        )
+
     static member inline VictoryArea(properties: #IAreaChartProperty seq) =
         Interop.reactApi.createElement (import "VictoryArea" "victory", createObj !!properties)
 

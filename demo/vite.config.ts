@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    //    base: "/analytics-gh-pages/",
+    base: "/Glutinum.Feliz.Victory/",
     plugins: [
         react({
             jsxRuntime: 'classic',

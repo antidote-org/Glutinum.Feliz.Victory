@@ -90,18 +90,22 @@ let private animate () =
     )
 
     VictoryChart [
-        victoryChart.custom "theme" VictoryTheme.material
+        victoryChart.animate
+            {|
+                duration = 2000
+                onLoad =
+                    {|
+                        duration = 1000
+                    |}
+            |}
         victoryChart.children [
             VictoryBar [
-                victoryBar.custom
-                    "animate"
-                    {|
-                        duration = 2000
-                        onLoad =
-                            {|
-                                duration = 1000
-                            |}
-                    |}
+                victoryBar.style [
+                    VictoryStyleInterface.data [
+                        style.fill "tomato"
+                        style.width 12
+                    ]
+                ]
                 victoryBar.barRatio 0.8
                 victoryBar.alignment VictoryBarAlignmentType.start
                 victoryBar.data data

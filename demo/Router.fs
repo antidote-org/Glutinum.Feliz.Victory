@@ -43,7 +43,7 @@ let private toPath page =
         | Route.Container container -> "container" </> ContainerRoute.toSegments container
         | Route.NotFound -> "not-found"
 
-    "/" + segmentsPart
+    "/Glutinum.Feliz.Victory/" + segmentsPart
 
 // Needs to be open here otherwise </> is shadowed by our inline operator
 open Elmish.UrlParser
@@ -51,14 +51,16 @@ open Elmish.Navigation
 open Feliz
 
 let routeParser: Parser<Route -> Route, Route> =
+
+
     oneOf [
-        map Route.Home (s "home")
-        map (Route.Chart ChartRoute.VictoryArea) (s "chart" </> s "victory-area")
-        map (Route.Chart ChartRoute.VictoryBar) (s "chart" </> s "victory-bar")
-        map (Route.Chart ChartRoute.VictoryLine) (s "chart" </> s "victory-line")
-        map (Route.Chart ChartRoute.VictoryPie) (s "chart" </> s "victory-pie")
-        map (Route.Chart ChartRoute.VictoryAxis) (s "chart" </> s "victory-axis")
-        map (Route.Container ContainerRoute.VictoryChart) (s "container" </> s "victory-chart")
+        map Route.Home (s "Glutinum.Feliz.Victory" </> s "home")
+        map (Route.Chart ChartRoute.VictoryArea) (s "Glutinum.Feliz.Victory" </> s "chart" </> s "victory-area")
+        map (Route.Chart ChartRoute.VictoryBar) (s "Glutinum.Feliz.Victory" </> s "chart" </> s "victory-bar")
+        map (Route.Chart ChartRoute.VictoryLine) (s "Glutinum.Feliz.Victory" </> s "chart" </> s "victory-line")
+        map (Route.Chart ChartRoute.VictoryPie) (s "Glutinum.Feliz.Victory" </> s "chart" </> s "victory-pie")
+        map (Route.Chart ChartRoute.VictoryAxis) (s "Glutinum.Feliz.Victory" </> s "chart" </> s "victory-axis")
+        map (Route.Container ContainerRoute.VictoryChart) (s "Glutinum.Feliz.Victory" </> s "container" </> s "victory-chart")
         map Route.Home top
     ]
 

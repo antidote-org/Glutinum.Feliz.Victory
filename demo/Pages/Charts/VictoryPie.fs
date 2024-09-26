@@ -1,29 +1,11 @@
 module Demo.Pages.Charts.VictoryPie.Component
 
-open Demo
+open Demo.Components
 open Demo.Html
-open Elmish
 open Feliz
 open Glutinum.Feliz.Victory
 
 open type Glutinum.Feliz.Victory.Exports
-
-type Model =
-    {
-        Name: string
-    }
-
-type Msg = | NoOp
-
-let init () =
-    {
-        Name = "Pie"
-    },
-    Cmd.none
-
-let update msg model =
-    match msg with
-    | _ -> model, Cmd.none
 
 type Data1 =
     {
@@ -46,7 +28,7 @@ let private data =
         Data1.create 5 7
     ]
 
-let view (model: Model) (dispatch: Dispatch<Msg>) =
+let private simple =
     Html.div [
         VictoryPie [
             victoryPie.data data
@@ -61,3 +43,17 @@ let view (model: Model) (dispatch: Dispatch<Msg>) =
         |> Html.previewChart
     ]
     |> renderDemoPage "VictoryLine"
+
+
+let private pageContent =
+    [
+        "Demo", simple
+    ]
+
+let tableOfContents = Sidebar.tableOfContents pageContent
+
+let view =
+    pageContent
+    |> List.map (fun (title, content) -> renderExample title content)
+    |> Html.div
+    |> renderDemoPage "VictoryBar"

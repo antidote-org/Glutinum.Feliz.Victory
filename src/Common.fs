@@ -519,14 +519,22 @@ type VictoryAxisCommonProps<'IDelayedTypeProperty> =
     static member inline tickFormat(value: ResizeArray<obj>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickFormat" value
 
+    static member inline tickFormat(value: obj list) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickFormat" (ResizeArray value)
+
     static member inline tickFormat(value: obj -> int -> ResizeArray<obj> -> string) =
-        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickFormat" value
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty>
+            "tickFormat"
+            (System.Func<_, _, _> value)
 
     static member inline tickFormat(value: obj -> int -> ResizeArray<obj> -> float) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickFormat" value
 
     static member inline tickValues(value: ResizeArray<obj>) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickValues" value
+
+    static member inline tickValues(value: obj list) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickValues" (ResizeArray value)
 
 module VictoryAxisCommonProps =
 

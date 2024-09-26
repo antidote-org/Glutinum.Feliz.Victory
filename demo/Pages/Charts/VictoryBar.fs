@@ -10,23 +10,6 @@ open Browser
 
 open type Glutinum.Feliz.Victory.Exports
 
-type Model =
-    {
-        Name: string
-    }
-
-type Msg = | NoOp
-
-let init () =
-    {
-        Name = "Area"
-    },
-    Cmd.none
-
-let update msg model =
-    match msg with
-    | _ -> model, Cmd.none
-
 type Data1 =
     {
         x: int
@@ -135,7 +118,7 @@ let private pageContent =
 
 let tableOfContents = Sidebar.tableOfContents pageContent
 
-let view (model: Model) (dispatch: Dispatch<Msg>) =
+let view =
     pageContent
     |> List.map (fun (title, content) -> renderExample title content)
     |> Html.div

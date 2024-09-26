@@ -11,6 +11,7 @@ type VictoryChartBase =
     inherit VictoryDatableProps<IVictoryChartProperty>
     inherit VictoryLabelableProps<IVictoryStackProperty>
     inherit VictoryMultiLabelableProps<IVictoryChartProperty>
+    inherit VictoryCommonProps<IVictoryChartProperty>
 
     static member inline custom (name: string) (value: obj) =
         unbox<IVictoryChartProperty> (name, value)

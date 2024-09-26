@@ -1,62 +1,28 @@
 module Demo.Pages.Containers.VictoryChart.Component
 
-open Demo
+
+open Demo.Components
 open Demo.Html
-open Elmish
 open Feliz
 open Glutinum.Feliz.Victory
 
 open type Glutinum.Feliz.Victory.Exports
 
-type Model =
-    {
-        Name: string
-    }
+let private simple =
+    VictoryChart [
+        victoryChart.innerRadius 50
+    ]
+    |> Html.previewChart
 
-type Msg = | NoOp
-
-let init () =
-    {
-        Name = "Pie"
-    },
-    Cmd.none
-
-let update msg model =
-    match msg with
-    | _ -> model, Cmd.none
-
-type Data1 =
-    {
-        x: int
-        y: int
-    }
-
-    static member inline create x y =
-        {
-            x = x
-            y = y
-        }
-
-let private data =
+let private pageContent =
     [
-        Data1.create 1 2
-        Data1.create 2 3
-        Data1.create 3 5
-        Data1.create 4 4
-        Data1.create 5 7
+        "Demo", simple
     ]
 
-let view (model: Model) (dispatch: Dispatch<Msg>) =
-    Html.div [
-        VictoryChart [
-            victoryChart.innerRadius 50
-        ]
-        |> Html.previewChart
-    ]
-    |> renderDemoPage "VictoryLine"
+let tableOfContents = Sidebar.tableOfContents pageContent
 
-
-// open Fable.Core
-// open Fable.Core.JsInterop
-
-// Fable.Core.JS.console.log(import "Background" "victory")
+let view =
+    pageContent
+    |> List.map (fun (title, content) -> renderExample title content)
+    |> Html.div
+    |> renderDemoPage "VictoryBar"

@@ -4,34 +4,29 @@ open Elmish
 open Demo.Components
 
 type Model =
-    | VictoryChart of VictoryChart.Component.Model
+    | VictoryChart
 
 type Msg =
-    | VictoryChartMsg of VictoryChart.Component.Msg
+    | NoOp
 
 let init (route: Router.ContainerRoute) =
     match route with
     | Router.ContainerRoute.VictoryChart ->
-        let (subModel, subCmd) = VictoryChart.Component.init ()
-
-        VictoryChart subModel, Cmd.map VictoryChartMsg subCmd
+        VictoryChart, Cmd.none
 
 let update msg model =
     match msg with
-    | VictoryChartMsg subMsg ->
-        match model with
-        | VictoryChart subModel ->
-            let (newSubModel, subCmd) = VictoryChart.Component.update subMsg subModel
-
-            VictoryChart newSubModel, Cmd.map VictoryChartMsg subCmd
-
-        // | _ -> model, Cmd.none
+    | NoOp -> model, Cmd.none
 
 let view model dispatch =
     match model with
-    | VictoryChart subModel -> VictoryChart.Component.view subModel (VictoryChartMsg >> dispatch)
+    | VictoryChart -> VictoryChart.Component.view
 
 let sidebar (currentRoute: Router.Route option) =
     Sidebar.category "Containers" [
-        Sidebar.link currentRoute (Router.Route.Container Router.ContainerRoute.VictoryChart) "VictoryChart"
+        Sidebar.linkWithToc
+            currentRoute
+            (Router.Route.Container Router.ContainerRoute.VictoryChart)
+            "VictoryChart"
+            VictoryChart.Component.tableOfContents
     ]

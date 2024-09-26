@@ -18,6 +18,7 @@ type VictoryLineBase =
     inherit VictoryDatableProps<IVictoryLineProperty>
     inherit VictoryLabelableProps<IVictoryLineProperty>
     inherit VictoryMultiLabelableProps<IVictoryLineProperty>
+    inherit VictoryCommonProps<IVictoryLineProperty>
 
     static member inline custom (name: string) (value: obj) =
         unbox<IVictoryLineProperty> (name, value)

@@ -10,6 +10,7 @@ open Glutinum.Feliz.Victory.Types
 type VictoryStackProps =
     inherit VictoryLabelableProps<IVictoryStackProperty>
     inherit VictoryMultiLabelableProps<IVictoryStackProperty>
+    inherit VictoryCommonProps<IVictoryStackProperty>
 
     static member inline bins(bins: int) =
         Interop.mkDelayedTypeProperty<IVictoryStackProperty> "bins" bins

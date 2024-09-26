@@ -11,6 +11,7 @@ type VictoryPieBase =
     inherit VictoryDatableProps<IVictoryPieProperty>
     inherit VictoryLabelableProps<IVictoryStackProperty>
     inherit VictoryMultiLabelableProps<IVictoryPieProperty>
+    inherit VictoryCommonProps<IVictoryPieProperty>
 
     static member inline custom (name: string) (value: obj) =
         unbox<IVictoryPieProperty> (name, value)

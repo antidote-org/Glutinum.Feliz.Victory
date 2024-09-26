@@ -18,6 +18,7 @@ type VictorySliceBase =
     inherit VictoryDatableProps<IVictorySliceProperty>
     inherit VictoryLabelableProps<IVictoryStackProperty>
     inherit VictoryMultiLabelableProps<IVictorySliceProperty>
+    inherit VictoryCommonProps<IVictorySliceProperty>
 
     static member inline custom (name: string) (value: obj) =
         unbox<IVictorySliceProperty> (name, value)

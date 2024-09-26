@@ -34,6 +34,7 @@ type VictoryBarAlignmentType =
 type VictoryBarProps =
     inherit VictoryDatableProps<IVictoryBarProperty>
     inherit VictoryMultiLabelableProps<IVictoryBarProperty>
+    inherit VictoryCommonProps<IVictoryBarProperty>
 
     static member inline custom (name: string) (value: obj) =
         unbox<IVictoryBarProperty> (name, value)

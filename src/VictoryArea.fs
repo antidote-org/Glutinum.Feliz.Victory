@@ -17,6 +17,7 @@ type VictoryAreaTTargetType =
 type VictoryAreaBase =
     inherit VictoryDatableProps<IAreaChartProperty>
     inherit VictoryMultiLabelableProps<IAreaChartProperty>
+    inherit VictoryCommonProps<IAreaChartProperty>
 
     static member inline custom (name: string) (value: obj) =
         unbox<IAreaChartProperty> (name, value)

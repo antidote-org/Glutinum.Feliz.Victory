@@ -40,3 +40,6 @@ type Exports =
 
     static member inline VictoryPie(properties: #IVictoryPieProperty seq) =
         Interop.reactApi.createElement (import "VictoryPie" "victory", createObj !!properties)
+
+    [<Import("VictoryTheme", "victory")>]
+    static member inline VictoryTheme: VictoryThemeBase = nativeOnly

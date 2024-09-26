@@ -19,3 +19,5 @@ module Types =
     type IVictoryPieProperty = interface end
 
     type IVictorySliceProperty = interface end
+
+    type IVictoryAxisProperty = interface end

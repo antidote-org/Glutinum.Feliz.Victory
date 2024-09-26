@@ -39,6 +39,10 @@ type DemoCommand() =
                 Command.RunAsync("npx", "vite", workingDirectory = Workspace.demo.``.``)
                 |> Async.AwaitTask
 
+                // We need to have a server to serve the source files to mimic the hosting from Github Raw
+                Command.RunAsync("npx", "http-server --cors", workingDirectory = Workspace.``.``)
+                |> Async.AwaitTask
+
                 Command.RunAsync(
                     "npx",
                     CmdLine.empty

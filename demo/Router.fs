@@ -12,12 +12,14 @@ type ChartRoute =
     | VictoryBar
     | VictoryLine
     | VictoryPie
+    | VictoryAxis
 
     static member toSegments = function
         | VictoryArea -> "victory-area"
         | VictoryBar -> "victory-bar"
         | VictoryLine -> "victory-line"
         | VictoryPie -> "victory-pie"
+        | VictoryAxis -> "victory-axis"
 
 [<RequireQualifiedAccess>]
 type ContainerRoute =
@@ -33,7 +35,7 @@ type Route =
     | Container of ContainerRoute
     | NotFound
 
-let private toHash page =
+let private toPath page =
     let segmentsPart =
         match page with
         | Route.Home -> "home"
@@ -41,7 +43,7 @@ let private toHash page =
         | Route.Container container -> "container" </> ContainerRoute.toSegments container
         | Route.NotFound -> "not-found"
 
-    "#" + segmentsPart
+    "/" + segmentsPart
 
 // Needs to be open here otherwise </> is shadowed by our inline operator
 open Elmish.UrlParser
@@ -55,14 +57,15 @@ let routeParser: Parser<Route -> Route, Route> =
         map (Route.Chart ChartRoute.VictoryBar) (s "chart" </> s "victory-bar")
         map (Route.Chart ChartRoute.VictoryLine) (s "chart" </> s "victory-line")
         map (Route.Chart ChartRoute.VictoryPie) (s "chart" </> s "victory-pie")
+        map (Route.Chart ChartRoute.VictoryAxis) (s "chart" </> s "victory-axis")
         map (Route.Container ContainerRoute.VictoryChart) (s "container" </> s "victory-chart")
         map Route.Home top
     ]
 
-let href route = prop.href (toHash route)
+let href route = prop.href (toPath route)
 
-let modifyUrl route = route |> toHash |> Navigation.modifyUrl
+let modifyUrl route = route |> toPath |> Navigation.modifyUrl
 
-let newUrl route = route |> toHash |> Navigation.newUrl
+let newUrl route = route |> toPath |> Navigation.newUrl
 
-let modifyLocation route = window.location.href <- toHash route
+let modifyLocation route = window.location.href <- toPath route

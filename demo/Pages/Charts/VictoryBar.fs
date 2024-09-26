@@ -1,9 +1,12 @@
 module Demo.Pages.Charts.VictoryBar.Component
 
-open Demo
+open System
+open Demo.Components
 open Elmish
 open Feliz
 open Glutinum.Feliz.Victory
+open Demo.Html
+open Browser
 
 open type Glutinum.Feliz.Victory.Exports
 
@@ -68,42 +71,72 @@ let dataWithCategories =
         DataWithCategories.create "frogs" 1
     ]
 
-
-let view (model: Model) (dispatch: Dispatch<Msg>) =
-    Html.div [
-        VictoryChart [
-            VictoryChart.custom "domainPadding" 20
-            VictoryChart.children [
-                VictoryBar [
-                    VictoryBar.data data
-                    VictoryBar.barRatio 0.8
-                    VictoryBar.style [
-                        VictoryStyleInterface.data [
-                            style.fill "#c43a31"
-                        ]
+let private alignment =
+    VictoryChart [
+        VictoryChart.custom "theme" VictoryTheme.material
+        VictoryChart.children [
+            VictoryBar [
+                VictoryBar.data data
+                VictoryBar.barRatio 0.8
+                VictoryBar.style [
+                    VictoryStyleInterface.data [
+                        style.fill "#c43a31"
                     ]
                 ]
+                VictoryBar.alignment VictoryBarAlignmentType.start
             ]
         ]
-        |> Html.previewChart
-
-        VictoryChart [
-            VictoryChart.custom "domainPadding" 25
-            VictoryChart.children [
-                VictoryBar [
-                    VictoryBar.categories (
-                        ResizeArray [
-                            "birds"
-                            "dogs"
-                            "fish"
-                            "cats"
-                            "frogs"
-                        ]
-                        |> CategoryPropType.U4.Case2
-                    )
-                    VictoryBar.data dataWithCategories
-                ]
-            ]
-        ]
-        |> Html.previewChart
     ]
+    |> Html.previewChart
+
+[<ReactComponent>]
+let private animate () =
+    let getData () =
+        let pointsCount = Random().Next(5, 10)
+
+        [
+            for pointsCount in 1..pointsCount do
+                yield Data1.create pointsCount (Random().Next(1, 20)) 0
+        ]
+
+    let data, setData = React.useState (getData ())
+
+    React.useEffect (
+        fun () -> window.setInterval ((fun () -> setData (getData ())), 3000) |> ignore
+        , [||]
+    )
+
+    VictoryChart [
+        VictoryChart.custom "theme" VictoryTheme.material
+        VictoryChart.children [
+            VictoryBar [
+                VictoryBar.custom
+                    "animate"
+                    {|
+                        duration = 2000
+                        onLoad =
+                            {|
+                                duration = 1000
+                            |}
+                    |}
+                VictoryBar.barRatio 0.8
+                VictoryBar.alignment VictoryBarAlignmentType.start
+                VictoryBar.data data
+            ]
+        ]
+    ]
+    |> Html.previewChart
+
+let private pageContent =
+    [
+        "Alignment", alignment
+        "Animate", animate ()
+    ]
+
+let tableOfContents = Sidebar.tableOfContents pageContent
+
+let view (model: Model) (dispatch: Dispatch<Msg>) =
+    pageContent
+    |> List.map (fun (title, content) -> renderExample title content)
+    |> Html.div
+    |> renderDemoPage "VictoryBar"

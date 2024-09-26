@@ -52,6 +52,29 @@
           "Fable.ReactDom.Types": "18.0.0"
         }
       },
+      "Fable.Fetch": {
+        "type": "Direct",
+        "requested": "[2.7.0, )",
+        "resolved": "2.7.0",
+        "contentHash": "2ndGZZTqpX9Hyso51tnIxWAskN2zrHX+7LeAwfG4zew+DtMMGa/3IyJGl2BOYUwweq2MhfuVqs1K3avgBFDq+Q==",
+        "dependencies": {
+          "FSharp.Core": "4.7.2",
+          "Fable.Browser.Blob": "1.2.0",
+          "Fable.Browser.Event": "1.5.0",
+          "Fable.Core": "3.7.1",
+          "Fable.Promise": "2.2.2"
+        }
+      },
+      "Fable.Promise": {
+        "type": "Direct",
+        "requested": "[3.2.0, )",
+        "resolved": "3.2.0",
+        "contentHash": "4A+Iiembrny2h3AE2BIbchfuLmWHNhpkOTvbTtFXHtGzHVMqEVFRXrAfdy83wX2wK5Og3fqRo1y8t/Bqkd7j6g==",
+        "dependencies": {
+          "FSharp.Core": "4.7.2",
+          "Fable.Core": "3.7.1"
+        }
+      },
       "Feliz": {
         "type": "Direct",
         "requested": "[2.7.0, )",
@@ -61,6 +84,16 @@
           "FSharp.Core": "4.7.2",
           "Fable.ReactDom.Types": "18.2.0",
           "Feliz.CompilerPlugins": "2.2.0"
+        }
+      },
+      "Feliz.UseDeferred": {
+        "type": "Direct",
+        "requested": "[2.0.0, )",
+        "resolved": "2.0.0",
+        "contentHash": "3qTLrYgC3NjmU4F8FYDHmxkznv1rrPagxaKdQmtee9Rs2B2IeGGPVuu73X1HrLQbhT9SmAWiDhpwrWbbz8E03w==",
+        "dependencies": {
+          "FSharp.Core": "4.7.2",
+          "Feliz": "2.0.0"
         }
       },
       "FSharp.Core": {

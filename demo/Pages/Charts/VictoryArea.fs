@@ -1,6 +1,7 @@
 module Demo.Pages.Charts.VictoryArea.Component
 
 open Demo
+open Demo.Html
 open Elmish
 open Feliz
 open Glutinum.Feliz.Victory

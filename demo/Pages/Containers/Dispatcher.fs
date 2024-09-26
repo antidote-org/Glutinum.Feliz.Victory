@@ -31,7 +31,7 @@ let view model dispatch =
     match model with
     | VictoryChart subModel -> VictoryChart.Component.view subModel (VictoryChartMsg >> dispatch)
 
-let sidebar =
+let sidebar (currentRoute: Router.Route option) =
     Sidebar.category "Containers" [
-        Sidebar.link (Router.Route.Container Router.ContainerRoute.VictoryChart) "VictoryChart"
+        Sidebar.link currentRoute (Router.Route.Container Router.ContainerRoute.VictoryChart) "VictoryChart"
     ]

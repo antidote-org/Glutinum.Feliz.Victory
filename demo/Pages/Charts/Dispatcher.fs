@@ -8,6 +8,7 @@ type Model =
     | VictoryBar of VictoryBar.Component.Model
     | VictoryLine of VictoryLine.Component.Model
     | VictoryPie of VictoryPie.Component.Model
+    | VictoryAxis
 
 type Msg =
     | VictoryAreaMsg of VictoryArea.Component.Msg
@@ -36,6 +37,8 @@ let init (route: Router.ChartRoute) =
         let (subModel, subCmd) = VictoryPie.Component.init ()
 
         VictoryPie subModel, Cmd.map VictoryPieMsg subCmd
+
+    | Router.ChartRoute.VictoryAxis -> VictoryAxis, Cmd.none
 
 let update msg model =
     match msg with
@@ -81,11 +84,25 @@ let view model dispatch =
     | VictoryBar subModel -> VictoryBar.Component.view subModel (VictoryBarMsg >> dispatch)
     | VictoryLine subModel -> VictoryLine.Component.view subModel (VictoryLineMsg >> dispatch)
     | VictoryPie subModel -> VictoryPie.Component.view subModel (VictoryPieMsg >> dispatch)
+    | VictoryAxis -> VictoryAxis.Component.view
 
-let sidebar =
+let sidebar (currentRoute: Router.Route option) =
     Sidebar.category "Charts" [
-        Sidebar.link (Router.Route.Chart Router.ChartRoute.VictoryArea) "VictoryArea"
-        Sidebar.link (Router.Route.Chart Router.ChartRoute.VictoryBar) "VictoryBar"
-        Sidebar.link (Router.Route.Chart Router.ChartRoute.VictoryLine) "VictoryLine"
-        Sidebar.link (Router.Route.Chart Router.ChartRoute.VictoryPie) "VictoryPie"
+        Sidebar.linkWithToc
+            currentRoute
+            (Router.Route.Chart Router.ChartRoute.VictoryAxis)
+            "VictoryAxis"
+            VictoryAxis.Component.tableOfContents
+
+        Sidebar.link currentRoute (Router.Route.Chart Router.ChartRoute.VictoryArea) "VictoryArea"
+
+        Sidebar.linkWithToc
+            currentRoute
+            (Router.Route.Chart Router.ChartRoute.VictoryBar)
+            "VictoryBar"
+            VictoryBar.Component.tableOfContents
+
+        Sidebar.link currentRoute (Router.Route.Chart Router.ChartRoute.VictoryLine) "VictoryLine"
+
+        Sidebar.link currentRoute (Router.Route.Chart Router.ChartRoute.VictoryPie) "VictoryPie"
     ]

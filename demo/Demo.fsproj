@@ -13,12 +13,14 @@
     <Compile Include="Utils/Tuple.fs" />
     <Compile Include="Utils/Html.fs" />
     <Compile Include="Pages/Charts/VictoryArea.fs" />
+    <Compile Include="Pages/Charts/VictoryAxis.fs" />
     <Compile Include="Pages/Charts/VictoryBar.fs" />
     <Compile Include="Pages/Charts/VictoryLine.fs" />
     <Compile Include="Pages/Charts/VictoryPie.fs" />
     <Compile Include="Pages/Charts/Dispatcher.fs" />
     <Compile Include="Pages/Containers/VictoryChart.fs" />
     <Compile Include="Pages/Containers/Dispatcher.fs" />
+    <Compile Include="Pages/Home.fs" />
     <Compile Include="Index.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -30,7 +32,10 @@
     <PackageReference Include="Fable.Elmish.Browser" />
     <PackageReference Include="Fable.Elmish.HMR" />
     <PackageReference Include="Fable.Elmish.React" />
+    <PackageReference Include="Fable.Fetch" />
+    <PackageReference Include="Fable.Promise" />
     <PackageReference Include="Feliz" />
+    <PackageReference Include="Feliz.UseDeferred" />
     <PackageReference Include="Zanaptak.TypedCssClasses" />
   </ItemGroup>
 </Project>

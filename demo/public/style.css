@@ -1,3 +1,51 @@
 :root {
     --line-length: 120ch;
 }
+
+.sidebar-layout {
+    ul[role="list"] {
+        a.is-active {
+            --spacing-vertical: .5rem;
+            --spacing-horizontal: 3rem;
+            background-color: var(--accent);
+            color: var(--box-bg);
+            padding: var(--spacing-vertical) var(--spacing-horizontal);
+            margin: calc(var(--spacing-vertical) * -1) calc(var(--spacing-horizontal) * -1);
+        }
+    }
+
+    >:nth-child(2) {
+        margin-top: 0;
+        @media (width < 180ch) {
+            margin: 0 3rem;
+        }
+    }
+}
+
+.example {
+    .code-snippet {
+        margin-top: 0;
+        overflow: auto;
+        height: fit-content;
+        max-height: 400px;
+        position: relative;
+
+        pre[class*="language-"] {
+            margin-top: -.5rem;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+        }
+    }
+}
+
+.table-of-contents {
+    a {
+        color: black;
+        font-weight: normal !important;
+    }
+}

@@ -134,9 +134,7 @@ let private renderNavbar =
 let private renderPageContent (model: Model) (dispatch: Dispatch<Msg>) =
     match model.ActivePage with
     | Page.Home ->
-        Html.div [
-            prop.text "Home"
-        ]
+        Pages.Home.render ()
 
     | Page.NotFound ->
         Html.div [
@@ -150,23 +148,36 @@ let private view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
         prop.className [
             missingCss.``sidebar-layout``
+            // missingCss.``height:100%``
+            // missingCss.``list-of-links``
             missingCss.fullscreen
+        ]
+        prop.style [
+            style.minHeight (length.vh 100)
         ]
         prop.children [
             Html.header [
                 Html.ul [
                     prop.role "list"
+                    prop.className missingCss.``list-of-links``
                     prop.children [
-                        Sidebar.link Router.Route.Home "Getting Started"
+                        Sidebar.link model.CurrentRoute Router.Route.Home "Getting Started"
 
-                        Pages.Charts.Dispatcher.sidebar
-                        Pages.Containers.Dispatcher.sidebar
+                        Pages.Charts.Dispatcher.sidebar model.CurrentRoute
+                        Pages.Containers.Dispatcher.sidebar model.CurrentRoute
                     ]
                 ]
             ]
 
-            Html.main [
-                renderPageContent model dispatch
+            Html.div [
+                prop.className "sidebar-content"
+                prop.children [
+                    Html.main [
+                        prop.children [
+                            renderPageContent model dispatch
+                        ]
+                    ]
+                ]
             ]
         ]
     ]
@@ -178,6 +189,6 @@ open Elmish.HMR
 
 
 Program.mkProgram init update view
-|> Program.toNavigable (parseHash Router.routeParser) setRoute
+|> Program.toNavigable (parsePath Router.routeParser) setRoute
 |> Program.withReactSynchronous "root"
 |> Program.run

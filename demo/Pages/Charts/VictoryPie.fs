@@ -1,6 +1,7 @@
 module Demo.Pages.Charts.VictoryPie.Component
 
 open Demo
+open Demo.Html
 open Elmish
 open Feliz
 open Glutinum.Feliz.Victory
@@ -59,4 +60,4 @@ let view (model: Model) (dispatch: Dispatch<Msg>) =
         ]
         |> Html.previewChart
     ]
-    |> Html.demoPage "VictoryLine"
+    |> renderDemoPage "VictoryLine"

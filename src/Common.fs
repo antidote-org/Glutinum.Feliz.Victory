@@ -6,6 +6,8 @@ open Feliz
 open Fable.Core
 open Fable.Core.JsInterop
 
+type IVictoryTheme = obj
+
 [<RequireQualifiedAccess>]
 [<StringEnum(CaseRules.None)>]
 type AxisType =
@@ -91,13 +93,13 @@ module ForAxes =
 [<Interface>]
 type VictoryDatableProps<'IDelayedTypeProperty> =
 
-    static member inline categories(categories: CategoryPropType) =
-        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" categories
+    // static member inline categories(categories: CategoryPropType) =
+    //     Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" categories
 
     static member inline categories(categories) =
-        let x: CategoryPropType = Utils.resolveOp_Implicit categories
-
-        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories" (x)
+        categories
+        |> Utils.resolveOp_Implicit<_, CategoryPropType>
+        |> Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "categories"
 
     static member inline data(data: 'T list) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "data" (ResizeArray data)
@@ -239,6 +241,23 @@ type VictoryDatableProps<'IDelayedTypeProperty> =
 type VictoryLabelableProps<'IDelayedTypeProperty> =
     static member inline labelComponent(labelComponent: ReactElement) =
         Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "labelComponent" labelComponent
+
+[<Erase>]
+[<Interface>]
+type VictorySingleLabelableProps<'IDelayedTypeProperty> =
+    inherit VictoryLabelableProps<'IDelayedTypeProperty>
+
+    static member inline label(value: string) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "label" value
+
+    static member inline label(value: obj -> string) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "label" value
+
+    static member inline label(value: obj -> float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "label" value
+
+    static member inline label(value: obj -> obj) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "label" value
 
 [<Erase>]
 [<Interface>]
@@ -451,3 +470,289 @@ module CategoryPropType2 =
 
             member val x: ResizeArray<string> = nativeOnly with get, set
             member val y: ResizeArray<string> = nativeOnly with get, set
+
+[<AllowNullLiteral>]
+[<Interface>]
+type VictoryAxisCommonProps<'IDelayedTypeProperty> =
+    static member inline axisComponent(value: ReactElement) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "axisComponent" value
+
+    static member inline axisLabelComponent(value: ReactElement) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "axisLabelComponent" value
+
+    static member inline axisValue(value: float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "axisValue" value
+
+    static member inline axisValue(value: string) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "axisValue" value
+
+    static member inline axisValue(value: obj) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "axisValue" value
+
+    static member inline axisValue(value: JS.Date) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "axisValue" value
+
+    static member inline dependentAxis(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "dependentAxis" value
+
+    static member inline disableInlineStyles(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "disableInlineStyles" value
+
+    static member inline gridComponent(value: ReactElement) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "gridComponent" value
+
+    static member inline invertAxis(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "invertAxis" value
+
+    static member inline style(value: VictoryAxisCommonProps.Style list) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "style" (createObj !!value)
+
+    static member inline tickComponent(value: ReactElement) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickComponent" value
+
+    static member inline tickCount(value: int) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickCount" value
+
+    static member inline tickLabelComponent(value: ReactElement) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickLabelComponent" value
+
+    static member inline tickFormat(value: ResizeArray<obj>) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickFormat" value
+
+    static member inline tickFormat(value: obj -> int -> ResizeArray<obj> -> string) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickFormat" value
+
+    static member inline tickFormat(value: obj -> int -> ResizeArray<obj> -> float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickFormat" value
+
+    static member inline tickValues(value: ResizeArray<obj>) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "tickValues" value
+
+module VictoryAxisCommonProps =
+
+    [<AllowNullLiteral>]
+    [<Interface>]
+    type Style =
+
+        static member inline parent(style: VictoryStyleObject) : Style =
+            unbox ("parent", createObj !!style)
+
+        static member inline axis(style: VictoryStyleObject) : Style =
+            unbox ("axis", createObj !!style)
+
+        static member inline axisLabel(style: VictoryStyleObject) : Style =
+            unbox ("axisLabel", createObj !!style)
+
+        static member inline axisLabel(style: VictoryStyleObject list) : Style =
+            let value = style |> List.map (unbox >> createObj) |> ResizeArray
+
+            unbox ("axisLabel", value)
+
+        static member inline grid(style: VictoryStyleObject) : Style =
+            unbox ("grid", createObj !!style)
+
+        static member inline ticks(style: VictoryStyleObject) : Style =
+            unbox ("ticks", createObj !!style)
+
+        static member inline tickLabels(style: VictoryStyleObject) : Style =
+            unbox ("tickLabels", createObj !!style)
+
+        static member inline tickLabels(style: VictoryStyleObject list) : Style =
+            let value = style |> List.map (unbox >> createObj) |> ResizeArray
+
+            unbox ("tickLabels", value)
+
+[<AllowNullLiteral>]
+[<Interface>]
+type VictoryCommonThemeProps<'IDelayedTypeProperty> =
+
+    static member inline animate(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "animate" value
+
+    static member inline animate(value: obj) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "animate" value
+
+    static member inline colorScale(value: ColorScalePropType) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "colorScale" value
+
+    static member inline containerComponent(value: ReactElement) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "containerComponent" value
+
+    static member inline disableInlineStyles(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "disableInlineStyles" value
+
+    static member inline domainPadding(value: float * float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "domainPadding" value
+
+    static member inline domainPadding(value: JS.Date * JS.Date) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "domainPadding" value
+
+    static member inline domainPadding(value: ForAxes.Case2<float * float>) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "domainPadding" value
+
+    static member inline domainPadding(value: ForAxes.Case2<JS.Date * JS.Date>) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "domainPadding" value
+
+    static member inline externalEventMutations
+        (value:
+            ResizeArray<
+                EventCallbackInterface<U2<string, ResizeArray<string>>, StringOrNumberOrList>
+             >)
+        =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "externalEventMutations" value
+
+    static member inline groupComponent(value: ReactElement) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "groupComponent" value
+
+    static member inline height(value: float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "height" value
+
+    static member inline horizontal(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "horizontal" value
+
+    static member inline maxDomain(value: float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "maxDomain" value
+
+    static member inline maxDomain(value: VictoryCommonThemeProps.maxDomain.U2.Case2) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "maxDomain" value
+
+    static member inline minDomain(value: float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "minDomain" value
+
+    static member inline minDomain(value: VictoryCommonThemeProps.minDomain.U2.Case2) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "minDomain" value
+
+    static member inline name(value: string) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "name" value
+
+    static member inline origin(value: OriginType) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "origin" value
+
+    static member inline padding(value: float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "padding" value
+
+    static member inline padding(value: BlockProps) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "padding" value
+
+    static member inline polar(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "polar" value
+
+    static member inline range(value: ResizeArray<float>) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "range" value
+
+    static member inline range(value: ForAxes.Case2<ResizeArray<float>>) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "range" value
+
+    static member inline scale(value: ScalePropType) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "scale" value
+
+    static member inline scale(value: D3Scale) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "scale" value
+
+    static member inline scale(value: VictoryCommonThemeProps.scale.U3.Case3) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "scale" value
+
+    static member inline sharedEvents(value: VictoryCommonThemeProps.sharedEvents) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "sharedEvents" value
+
+    static member inline singleQuadrantDomainPadding(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "singleQuadrantDomainPadding" value
+
+    static member inline singleQuadrantDomainPadding
+        (value: VictoryCommonThemeProps.singleQuadrantDomainPadding.U2.Case2)
+        =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "singleQuadrantDomainPadding" value
+
+    static member inline standalone(value: bool) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "standalone" value
+
+    static member inline width(value: float) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "width" value
+
+module VictoryCommonThemeProps =
+
+    [<Global>]
+    [<AllowNullLiteral>]
+    type sharedEvents
+        [<ParamObject; Emit("$0")>]
+        (events: ResizeArray<obj>, getEventState: System.Action)
+        =
+
+        member val events: ResizeArray<obj> = nativeOnly with get, set
+        member val getEventState: System.Action = nativeOnly with get, set
+
+    module maxDomain =
+
+        module U2 =
+
+            [<Global>]
+            [<AllowNullLiteral>]
+            type Case2 [<ParamObject; Emit("$0")>] (?x: float, ?y: float) =
+
+                member val x: float option = nativeOnly with get, set
+                member val y: float option = nativeOnly with get, set
+
+    module minDomain =
+
+        module U2 =
+
+            [<Global>]
+            [<AllowNullLiteral>]
+            type Case2 [<ParamObject; Emit("$0")>] (?x: float, ?y: float) =
+
+                member val x: float option = nativeOnly with get, set
+                member val y: float option = nativeOnly with get, set
+
+    module scale =
+
+        module U3 =
+
+            [<Global>]
+            [<AllowNullLiteral>]
+            type Case3 private () =
+
+                [<ParamObject; Emit("$0")>]
+                new(?x: ScalePropType, ?y: ScalePropType) = Case3()
+
+                [<ParamObject; Emit("$0")>]
+                new(?x: D3Scale, ?y: D3Scale) = Case3()
+
+                member val x: U2<obj, obj> option = nativeOnly with get, set
+                member val y: U2<obj, obj> option = nativeOnly with get, set
+
+    module singleQuadrantDomainPadding =
+
+        module U2 =
+
+            [<Global>]
+            [<AllowNullLiteral>]
+            type Case2 [<ParamObject; Emit("$0")>] (?x: bool, ?y: bool) =
+
+                member val x: bool option = nativeOnly with get, set
+                member val y: bool option = nativeOnly with get, set
+
+[<AllowNullLiteral>]
+[<Interface>]
+type EventCallbackInterface<'TTarget, 'TEventKey> =
+    abstract member childName: U2<string, ResizeArray<string>> option with get, set
+    abstract member target: 'TTarget option with get, set
+    abstract member eventKey: 'TEventKey option with get, set
+    abstract member mutation: (obj -> obj) with get, set
+    abstract member callback: (obj -> obj) option with get, set
+
+type StringOrNumberOrList = U3<string, float, ResizeArray<U2<string, float>>>
+
+[<AllowNullLiteral>]
+[<Interface>]
+type VictoryCommonProps<'IDelayedTypeProperty> =
+    inherit VictoryCommonThemeProps<'IDelayedTypeProperty>
+
+    static member inline theme(theme: IVictoryTheme) =
+        Interop.mkDelayedTypeProperty<'IDelayedTypeProperty> "theme" theme
+
+[<Global>]
+[<AllowNullLiteral>]
+type OriginType [<ParamObject; Emit("$0")>] (x: float, y: float) =
+
+    member val x: float = nativeOnly with get, set
+    member val y: float = nativeOnly with get, set

@@ -133,13 +133,9 @@ let private renderNavbar =
 
 let private renderPageContent (model: Model) (dispatch: Dispatch<Msg>) =
     match model.ActivePage with
-    | Page.Home ->
-        Pages.Home.render ()
-
+    | Page.Home
     | Page.NotFound ->
-        Html.div [
-            prop.text "Not Found"
-        ]
+        Pages.Home.render ()
 
     | Page.Charts subModel -> Pages.Charts.Dispatcher.view subModel (ChartsMsg >> dispatch)
     | Page.Containers subModel -> Pages.Containers.Dispatcher.view subModel (ContainersMsg >> dispatch)

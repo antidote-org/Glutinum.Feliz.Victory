@@ -73,17 +73,17 @@ let dataWithCategories =
 
 let private alignment =
     VictoryChart [
-        VictoryChart.custom "theme" VictoryTheme.material
-        VictoryChart.children [
+        victoryChart.custom "theme" VictoryTheme.material
+        victoryChart.children [
             VictoryBar [
-                VictoryBar.data data
-                VictoryBar.barRatio 0.8
-                VictoryBar.style [
+                victoryBar.data data
+                victoryBar.barRatio 0.8
+                victoryBar.style [
                     VictoryStyleInterface.data [
                         style.fill "#c43a31"
                     ]
                 ]
-                VictoryBar.alignment VictoryBarAlignmentType.start
+                victoryBar.alignment VictoryBarAlignmentType.start
             ]
         ]
     ]
@@ -107,10 +107,10 @@ let private animate () =
     )
 
     VictoryChart [
-        VictoryChart.custom "theme" VictoryTheme.material
-        VictoryChart.children [
+        victoryChart.custom "theme" VictoryTheme.material
+        victoryChart.children [
             VictoryBar [
-                VictoryBar.custom
+                victoryBar.custom
                     "animate"
                     {|
                         duration = 2000
@@ -119,9 +119,9 @@ let private animate () =
                                 duration = 1000
                             |}
                     |}
-                VictoryBar.barRatio 0.8
-                VictoryBar.alignment VictoryBarAlignmentType.start
-                VictoryBar.data data
+                victoryBar.barRatio 0.8
+                victoryBar.alignment VictoryBarAlignmentType.start
+                victoryBar.data data
             ]
         ]
     ]

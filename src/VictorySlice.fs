@@ -94,7 +94,7 @@ type VictorySliceBase =
 
 [<Erase>]
 [<Interface>]
-type VictorySlice =
+type victorySlice =
     inherit VictorySliceBase
 
 module VictorySliceBase =

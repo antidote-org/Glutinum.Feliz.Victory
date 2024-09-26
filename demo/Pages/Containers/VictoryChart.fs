@@ -49,7 +49,7 @@ let private data =
 let view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
         VictoryChart [
-            VictoryChart.innerRadius 50
+            victoryChart.innerRadius 50
         ]
         |> Html.previewChart
     ]

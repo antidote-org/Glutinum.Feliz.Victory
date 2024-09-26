@@ -51,8 +51,8 @@ let private data =
 let view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
         VictoryLine [
-            VictoryLine.data data
-            VictoryLine.labels (fun (args : CallbackArgs<Data1>) ->
+            victoryLine.data data
+            victoryLine.labels (fun (args : CallbackArgs<Data1>) ->
                 match args.datum with
                 | Some datum -> string datum.y
                 | None -> ""

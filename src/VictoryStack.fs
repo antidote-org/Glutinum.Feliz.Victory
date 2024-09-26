@@ -95,5 +95,5 @@ type VictoryStackProps =
 
 [<Erase>]
 [<Interface>]
-type VictoryStack =
+type victoryStack =
     inherit VictoryStackProps

@@ -98,7 +98,7 @@ type VictoryChartBase =
 
 [<Erase>]
 [<Interface>]
-type VictoryChart =
+type victoryChart =
     inherit VictoryChartBase
 
 [<Global>]

@@ -43,9 +43,9 @@ type Data1 =
 let view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
         VictoryChart [
-            VictoryChart.children [
+            victoryChart.children [
                 VictoryArea [
-                    VictoryArea.data [
+                    victoryArea.data [
                         Data1.create 1 2 0
                         Data1.create 2 3 1
                         Data1.create 3 5 1

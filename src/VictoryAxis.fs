@@ -56,5 +56,5 @@ type VictoryAxisBase =
 
 [<Erase>]
 [<Interface>]
-type VictoryAxis =
+type victoryAxis =
     inherit VictoryAxisBase

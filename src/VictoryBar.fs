@@ -142,5 +142,5 @@ type VictoryBarCornerRadiusObject<'Datum> private () =
 
 [<Erase>]
 [<Interface>]
-type VictoryBar =
+type victoryBar =
     inherit VictoryBarProps

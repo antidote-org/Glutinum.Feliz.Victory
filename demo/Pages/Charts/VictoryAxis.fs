@@ -15,23 +15,23 @@ let private demo =
         svg.height size
         svg.children [
             VictoryAxis [
-                VictoryAxis.crossAxis true
-                VictoryAxis.height size
-                VictoryAxis.width size
-                VictoryAxis.standalone false
-                VictoryAxis.offsetY (size / 2.0)
-                VictoryAxis.domain ((-10.0, 10.0))
-                VictoryAxis.theme VictoryTheme.material
+                victoryAxis.crossAxis true
+                victoryAxis.height size
+                victoryAxis.width size
+                victoryAxis.standalone false
+                victoryAxis.offsetY (size / 2.0)
+                victoryAxis.domain ((-10.0, 10.0))
+                victoryAxis.theme VictoryTheme.material
             ]
             VictoryAxis [
-                VictoryAxis.crossAxis true
-                VictoryAxis.dependentAxis true
-                VictoryAxis.height size
-                VictoryAxis.width size
-                VictoryAxis.standalone false
-                VictoryAxis.offsetX (size / 2.0)
-                VictoryAxis.domain ((-10.0, 10.0))
-                VictoryAxis.theme VictoryTheme.material
+                victoryAxis.crossAxis true
+                victoryAxis.dependentAxis true
+                victoryAxis.height size
+                victoryAxis.width size
+                victoryAxis.standalone false
+                victoryAxis.offsetX (size / 2.0)
+                victoryAxis.domain ((-10.0, 10.0))
+                victoryAxis.theme VictoryTheme.material
             ]
         ]
     ]

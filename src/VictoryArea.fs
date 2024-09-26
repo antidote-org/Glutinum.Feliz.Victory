@@ -59,5 +59,5 @@ type VictoryAreaBase =
 
 [<Erase>]
 [<Interface>]
-type VictoryArea =
+type victoryArea =
     inherit VictoryAreaBase

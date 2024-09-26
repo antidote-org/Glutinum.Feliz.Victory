@@ -54,32 +54,32 @@ let private data2015 =
 [<ReactComponent>]
 let private DemoChart() =
     VictoryChart [
-        VictoryChart.domainPadding 20
-        VictoryChart.custom "theme" VictoryTheme.material
-        VictoryChart.children [
+        victoryChart.domainPadding 20
+        victoryChart.custom "theme" VictoryTheme.material
+        victoryChart.children [
             // VictoryAxis
             VictoryStack [
-                VictoryStack.colorScale ColorScalePropType.Case1.warm
-                VictoryStack.children [
+                victoryStack.colorScale ColorScalePropType.Case1.warm
+                victoryStack.children [
                     VictoryBar [
-                        VictoryBar.data data2012
-                        VictoryBar.x "Quarter"
-                        VictoryBar.y "Earnings"
+                        victoryBar.data data2012
+                        victoryBar.x "Quarter"
+                        victoryBar.y "Earnings"
                     ]
                     VictoryBar [
-                        VictoryBar.data data2013
-                        VictoryBar.x "Quarter"
-                        VictoryBar.y "Earnings"
+                        victoryBar.data data2013
+                        victoryBar.x "Quarter"
+                        victoryBar.y "Earnings"
                     ]
                     VictoryBar [
-                        VictoryBar.data data2014
-                        VictoryBar.x "Quarter"
-                        VictoryBar.y "Earnings"
+                        victoryBar.data data2014
+                        victoryBar.x "Quarter"
+                        victoryBar.y "Earnings"
                     ]
                     VictoryBar [
-                        VictoryBar.data data2015
-                        VictoryBar.x "Quarter"
-                        VictoryBar.y "Earnings"
+                        victoryBar.data data2015
+                        victoryBar.x "Quarter"
+                        victoryBar.y "Earnings"
                     ]
                 ]
             ]

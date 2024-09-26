@@ -49,14 +49,14 @@ let private data =
 let view (model: Model) (dispatch: Dispatch<Msg>) =
     Html.div [
         VictoryPie [
-            VictoryPie.data data
-            VictoryPie.labels (fun (args : CallbackArgs<Data1>) ->
+            victoryPie.data data
+            victoryPie.labels (fun (args : CallbackArgs<Data1>) ->
                 match args.datum with
                 | Some datum -> string datum.y
                 | None -> ""
             )
-            VictoryPie.innerRadius 10
-            VictoryPie.cornerRadius 20
+            victoryPie.innerRadius 10
+            victoryPie.cornerRadius 20
         ]
         |> Html.previewChart
     ]

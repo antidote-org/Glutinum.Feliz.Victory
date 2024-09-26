@@ -116,5 +116,5 @@ type VictoryPieBase =
 
 [<Erase>]
 [<Interface>]
-type VictoryPie =
+type victoryPie =
     inherit VictoryPieBase

@@ -60,5 +60,5 @@ type VictoryLineBase =
 
 [<Erase>]
 [<Interface>]
-type VictoryLine =
+type victoryLine =
     inherit VictoryLineBase

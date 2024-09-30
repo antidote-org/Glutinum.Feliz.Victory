@@ -136,7 +136,7 @@ let render () =
                     prop.className "language-bash"
                     prop.text
                         """
-dotnet add package Glutinum.Feliz.Victory --version 0.2.0"""
+dotnet add package Glutinum.Feliz.Victory"""
                 ]
             ]
         ]

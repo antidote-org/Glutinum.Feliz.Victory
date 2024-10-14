@@ -5,8 +5,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- EasyBuild: START -->
-<!-- last_commit_released: 2c163057d75f1618a43dc6e6b2cfe1075dcc587c -->
+<!-- last_commit_released: abd1fedad02ef72eb46a709a1b4b29512972f451 -->
 <!-- EasyBuild: END -->
+
+## 0.3.1
+
+### 🐞 Bug Fixes
+
+- Deploy as a Fable library ([abd1fed](https://github.com/easybuild-org/EasyBuild.FileSystemProvider/commit/abd1fedad02ef72eb46a709a1b4b29512972f451))
 
 ## 0.3.0
 
